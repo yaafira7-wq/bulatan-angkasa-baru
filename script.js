@@ -5,7 +5,8 @@ const starValue = document.getElementById("starValue");
 const definitionTitle = document.getElementById("definitionTitle");
 const definitionText = document.getElementById("definitionText");
 const crosswordBoard = document.getElementById("crosswordBoard");
-const clueList = document.getElementById("clueList");
+const acrossClueList = document.getElementById("acrossClueList");
+const downClueList = document.getElementById("downClueList");
 const crosswordFeedback = document.getElementById("crosswordFeedback");
 const labelBank = document.getElementById("labelBank");
 const dragFeedback = document.getElementById("dragFeedback");
@@ -31,6 +32,8 @@ const state = {
   pendingTile: null,
   solvedBoardTiles: new Set(),
 };
+
+const CROSSWORD_CELL_SIZE = 36;
 
 const terms = {
   jejari: {
@@ -68,23 +71,134 @@ const terms = {
 };
 
 const crosswordEntries = [
-  { id: 1, answer: "pusat", clue: "Titik tengah bulatan.", row: 0, col: 3, dir: "down", hints: [0] },
+  { id: "1A", number: 1, answer: "luas", clue: "Kawasan di dalam bulatan.", row: 0, col: 4, dir: "across", hints: [0] },
   {
-    id: 2,
-    answer: "lilitan",
-    clue: "Perimeter atau sempadan luar bulatan.",
+    id: "2D",
+    number: 2,
+    answer: "sektor",
+    clue: "Kawasan yang dibatasi oleh dua jejari dan satu lengkok.",
     row: 0,
+    col: 7,
+    dir: "down",
+    hints: [0],
+  },
+  {
+    id: "3D",
+    number: 3,
+    answer: "bulatan",
+    clue: "Lokus laluan lengkung bagi titik yang sama jarak daripada pusat.",
+    row: 1,
+    col: 0,
+    dir: "down",
+    hints: [0, 3],
+  },
+  {
+    id: "4D",
+    number: 4,
+    answer: "pi",
+    clue: "3.14159265359",
+    row: 2,
+    col: 4,
+    dir: "down",
+    hints: [0],
+  },
+  {
+    id: "5A",
+    number: 5,
+    answer: "lilitan",
+    clue: "Perimeter bulatan.",
+    row: 3,
+    col: 3,
+    dir: "across",
+    hints: [0, 4],
+  },
+  {
+    id: "6D",
+    number: 6,
+    answer: "lengkokkecil",
+    clue: "Lengkok kurang daripada 180°.",
+    row: 3,
     col: 5,
+    dir: "down",
+    hints: [0, 7],
+  },
+  {
+    id: "7A",
+    number: 7,
+    answer: "pusat",
+    clue: "Titik ____ di mana semua titik pada lilitan adalah sama jarak daripadanya.",
+    row: 6,
+    col: 10,
+    dir: "across",
+    hints: [0],
+  },
+  {
+    id: "8A",
+    number: 8,
+    answer: "lengkok",
+    clue: "Bahagian lilitan.",
+    row: 8,
+    col: 0,
+    dir: "across",
+    hints: [0, 4],
+  },
+  {
+    id: "9D",
+    number: 9,
+    answer: "diameter",
+    clue: "Perentas terpanjang dalam bulatan.",
+    row: 14,
+    col: 6,
     dir: "down",
     hints: [0, 4],
   },
-  { id: 3, answer: "jejari", clue: "Garis dari pusat ke lilitan.", row: 3, col: 0, dir: "across", hints: [0] },
   {
-    id: 4,
-    answer: "diameter",
-    clue: "Garis lurus melalui pusat yang menyambungkan dua titik pada lilitan.",
-    row: 7,
-    col: 1,
+    id: "10D",
+    number: 10,
+    answer: "tangen",
+    clue: "Garis yang bersilang dengan bulatan tepat pada satu titik.",
+    row: 16,
+    col: 11,
+    dir: "down",
+    hints: [0],
+  },
+  {
+    id: "11A",
+    number: 11,
+    answer: "perentas",
+    clue: "Garis lurus yang menghubungkan mana-mana dua titik pada lilitan.",
+    row: 18,
+    col: 3,
+    dir: "across",
+    hints: [0, 4],
+  },
+  {
+    id: "11D",
+    number: 11,
+    answer: "pusat",
+    clue: "Semua titik pada bulatan adalah sama jarak dari titik ini.",
+    row: 18,
+    col: 3,
+    dir: "down",
+    hints: [0],
+  },
+  {
+    id: "12A",
+    number: 12,
+    answer: "darjah",
+    clue: "Sudut boleh diukur menggunakan ________.",
+    row: 17,
+    col: 10,
+    dir: "across",
+    hints: [0],
+  },
+  {
+    id: "13A",
+    number: 13,
+    answer: "tembereng",
+    clue: "Kawasan yang dikelilingi oleh perentas dan lengkok.",
+    row: 20,
+    col: 5,
     dir: "across",
     hints: [0, 4],
   },
@@ -173,7 +287,8 @@ document.querySelectorAll(".bubble").forEach((bubble) => {
 
 function buildCrossword() {
   crosswordBoard.innerHTML = "";
-  clueList.innerHTML = "";
+  acrossClueList.innerHTML = "";
+  downClueList.innerHTML = "";
 
   const cells = new Map();
   const entryKeys = new Map();
@@ -219,13 +334,13 @@ function buildCrossword() {
 
   crosswordEntries.forEach((entry) => {
     const key = `${entry.row}-${entry.col}`;
-    if (cells.has(key)) {
-      cells.get(key).number = entry.id;
+    if (cells.has(key) && cells.get(key).number === null) {
+      cells.get(key).number = entry.number;
     }
   });
 
-  crosswordBoard.style.gridTemplateColumns = `repeat(${maxCol + 1}, 42px)`;
-  crosswordBoard.style.gridTemplateRows = `repeat(${maxRow + 1}, 42px)`;
+  crosswordBoard.style.gridTemplateColumns = `repeat(${maxCol + 1}, ${CROSSWORD_CELL_SIZE}px)`;
+  crosswordBoard.style.gridTemplateRows = `repeat(${maxRow + 1}, ${CROSSWORD_CELL_SIZE}px)`;
 
   const inputs = new Map();
   const editableKeys = [];
@@ -273,12 +388,21 @@ function buildCrossword() {
     }
   }
 
-  crosswordEntries.forEach((entry) => {
-    const li = document.createElement("li");
-    const direction = entry.dir === "across" ? "Melintang" : "Menegak";
-    li.textContent = `${entry.id}. (${direction}) ${entry.clue}`;
-    clueList.appendChild(li);
-  });
+  crosswordEntries
+    .filter((entry) => entry.dir === "across")
+    .forEach((entry) => {
+      const li = document.createElement("li");
+      li.textContent = `${entry.number}. ${entry.clue}`;
+      acrossClueList.appendChild(li);
+    });
+
+  crosswordEntries
+    .filter((entry) => entry.dir === "down")
+    .forEach((entry) => {
+      const li = document.createElement("li");
+      li.textContent = `${entry.number}. ${entry.clue}`;
+      downClueList.appendChild(li);
+    });
 
   crosswordState.cells = cells;
   crosswordState.inputs = inputs;

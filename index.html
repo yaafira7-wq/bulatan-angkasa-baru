@@ -80,8 +80,9 @@
           <p class="section-tag">Zon 2</p>
           <h2>Teka Silang Kata Bulatan</h2>
           <p class="section-note">
-            Isikan jawapan pada setiap kotak. Huruf akan bergerak automatik ke
-            kotak seterusnya dan beberapa kotak diberi huruf petunjuk.
+            Ikut petunjuk melintang dan menegak seperti silang kata sebenar.
+            Huruf akan bergerak automatik ke kotak seterusnya dan beberapa
+            kotak diberi huruf petunjuk.
           </p>
 
           <div class="crossword-layout">
@@ -89,7 +90,14 @@
             <div class="crossword-side">
               <div class="clue-box">
                 <h3>Petunjuk</h3>
-                <ol id="clueList"></ol>
+                <div class="clue-group">
+                  <h4>Melintang</h4>
+                  <ol id="acrossClueList"></ol>
+                </div>
+                <div class="clue-group">
+                  <h4>Menegak</h4>
+                  <ol id="downClueList"></ol>
+                </div>
               </div>
               <div class="crossword-actions">
                 <button class="primary-btn" id="checkCrossword">Semak Jawapan</button>
