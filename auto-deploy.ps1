@@ -74,6 +74,26 @@ function Get-VercelExecutable {
     return $candidates[0]
 }
 
+function Ensure-NodePath {
+    $nodeCommand = Get-Command "node" -ErrorAction SilentlyContinue
+    if ($nodeCommand) {
+        return
+    }
+
+    $candidateDirectories = @(
+        "C:\Program Files\nodejs",
+        "C:\Program Files (x86)\nodejs"
+    )
+
+    foreach ($directory in $candidateDirectories) {
+        $nodePath = Join-Path $directory "node.exe"
+        if (Test-Path $nodePath) {
+            $env:Path = "$directory;$env:Path"
+            return
+        }
+    }
+}
+
 try {
     Require-Command -Name "git" | Out-Null
 
@@ -147,6 +167,8 @@ try {
 
     Write-Host ""
     Write-Host "=== Vercel Deploy ===" -ForegroundColor Cyan
+
+    Ensure-NodePath
 
     $vercelExecutable = Get-VercelExecutable
     if ([string]::IsNullOrWhiteSpace($vercelExecutable)) {
