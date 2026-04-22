@@ -1,0 +1,16 @@
+# Local deployment state
+.vercel/
+
+# Local backups
+.git-backup-*/
+
+# Personal files
+Pictures/
+
+# Old deployment artifacts not used in the new setup
+deploy-pages.yml
+
+# OS files
+desktop.ini
+Thumbs.db
+.DS_Store

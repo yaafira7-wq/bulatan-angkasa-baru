@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bulatan Angkasa</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="stars"></div>
+
+    <header class="hud">
+      <div class="hud-card">
+        <span class="hud-label">Skor</span>
+        <strong id="scoreValue">0</strong>
+      </div>
+      <div class="hud-card">
+        <span class="hud-label">Bintang</span>
+        <strong id="starValue">0 / 6</strong>
+      </div>
+      <div class="hud-card progress-card">
+        <span class="hud-label">Kemajuan Misi</span>
+        <div class="progress-bar">
+          <div id="progressFill"></div>
+        </div>
+      </div>
+    </header>
+
+    <main id="app">
+      <section class="screen active hero-screen" data-screen="start">
+        <div class="hero-content">
+          <p class="kicker">Game Pembelajaran Interaktif</p>
+          <h1>TEKA SILANG KATA<br />MISTERI BULATAN</h1>
+          <p class="subtitle">
+            Terokai istilah bulatan, jawab cabaran matematik, seret label ke
+            tempat yang betul, dan habiskan misi anda di dunia angkasa.
+          </p>
+          <div class="hero-actions">
+            <button class="primary-btn" data-next="terms">Mula</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen panel-screen" data-screen="terms">
+        <div class="panel wide">
+          <p class="section-tag">Zon 1</p>
+          <h2>Kenali Bahagian Bulatan</h2>
+          <p class="section-note">
+            Tekan pada setiap bulatan untuk melihat info dan penerangan ringkas.
+          </p>
+
+          <div class="bubble-map">
+            <button class="bubble blue" data-term="jejari">Jejari</button>
+            <button class="bubble orange" data-term="tembereng">Tembereng</button>
+            <button class="bubble pink" data-term="lilitan">Lilitan</button>
+            <button class="bubble cyan" data-term="pusat">Pusat</button>
+            <button class="bubble purple" data-term="sektor">Sektor</button>
+            <button class="bubble green" data-term="diameter">Diameter</button>
+            <button class="bubble yellow" data-term="perentas">Perentas</button>
+            <button class="bubble red" data-term="lengkok">Lengkok</button>
+          </div>
+
+          <div class="definition-box">
+            <p class="info-chip">Info Istilah</p>
+            <h3 id="definitionTitle">Pilih satu bulatan</h3>
+            <p id="definitionText">
+              Tekan mana-mana bulatan untuk melihat maklumat istilah tersebut.
+            </p>
+          </div>
+
+          <div class="panel-actions">
+            <button class="ghost-btn" data-next="start">Sebelumnya</button>
+            <button class="primary-btn" data-next="crossword">Seterusnya</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen panel-screen" data-screen="crossword">
+        <div class="panel wide">
+          <p class="section-tag">Zon 2</p>
+          <h2>Teka Silang Kata Bulatan</h2>
+          <p class="section-note">
+            Isikan jawapan pada setiap kotak dan semak jawapan anda.
+          </p>
+
+          <div class="crossword-layout">
+            <div class="crossword-board" id="crosswordBoard"></div>
+            <div class="crossword-side">
+              <div class="clue-box">
+                <h3>Petunjuk</h3>
+                <ol id="clueList"></ol>
+              </div>
+              <div class="crossword-actions">
+                <button class="primary-btn" id="checkCrossword">Semak Jawapan</button>
+              </div>
+              <div class="feedback" id="crosswordFeedback"></div>
+            </div>
+          </div>
+
+          <div class="panel-actions">
+            <button class="ghost-btn" data-next="terms">Sebelumnya</button>
+            <button class="primary-btn" data-next="dragdrop">Seterusnya</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen panel-screen" data-screen="dragdrop">
+        <div class="panel wide">
+          <p class="section-tag">Zon 3</p>
+          <h2>Seret Label Bahagian Bulatan</h2>
+          <p class="section-note">
+            Seret label ke tempat yang betul pada gambar rajah bulatan.
+          </p>
+
+          <div class="drag-layout">
+            <div class="label-bank" id="labelBank"></div>
+            <div class="diagram-area">
+              <div class="circle-diagram">
+                <div class="arc-shape"></div>
+                <div class="radius-line"></div>
+                <div class="diameter-line"></div>
+                <div class="sector-shape"></div>
+                <div class="chord-line"></div>
+                <div class="center-point"></div>
+
+                <div class="drop-zone" data-accept="lilitan" style="top: 4%; left: 24%"></div>
+                <div class="drop-zone" data-accept="diameter" style="top: 46%; left: 15%"></div>
+                <div class="drop-zone" data-accept="jejari" style="top: 31%; left: 63%"></div>
+                <div class="drop-zone" data-accept="perentas" style="top: 66%; left: 17%"></div>
+                <div class="drop-zone" data-accept="pusat" style="top: 46%; left: 46%"></div>
+                <div class="drop-zone" data-accept="sektor" style="top: 66%; left: 63%"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="crossword-actions">
+            <button class="ghost-btn" id="resetDrag">Set Semula</button>
+            <button class="primary-btn" id="checkDrag">Semak Label</button>
+          </div>
+          <div class="feedback" id="dragFeedback"></div>
+
+          <div class="panel-actions">
+            <button class="ghost-btn" data-next="crossword">Sebelumnya</button>
+            <button class="primary-btn" data-next="mathopoly">Seterusnya</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen panel-screen" data-screen="mathopoly">
+        <div class="panel wide">
+          <p class="section-tag">Zon 4</p>
+          <h2>Mathopoly Mini</h2>
+          <p class="section-note">
+            Pusing dadu, gerak ke hadapan, dan jawab soalan ringkas tentang bulatan.
+          </p>
+
+          <div class="mathopoly-layout">
+            <div class="board-wrap">
+              <div class="board-grid" id="boardGrid"></div>
+            </div>
+            <div class="board-panel">
+              <div class="player-card">
+                <h3>Pemain</h3>
+                <p id="playerPosition">Petak 1 / 8</p>
+              </div>
+              <div class="dice-card">
+                <div class="dice-face" id="diceFace">?</div>
+                <button class="primary-btn" id="rollDice">Pusing Dadu</button>
+              </div>
+              <div class="question-box">
+                <h3>Cabaran</h3>
+                <p id="boardPrompt">Tekan butang untuk mula bergerak.</p>
+              </div>
+              <div class="board-answer">
+                <input id="boardAnswer" type="text" placeholder="Masukkan jawapan" />
+                <button class="ghost-btn" id="submitBoardAnswer">Hantar</button>
+              </div>
+              <div class="feedback" id="boardFeedback"></div>
+            </div>
+          </div>
+
+          <div class="panel-actions">
+            <button class="ghost-btn" data-next="dragdrop">Sebelumnya</button>
+            <button class="primary-btn" data-next="finish">Lihat Keputusan</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen panel-screen" data-screen="finish">
+        <div class="panel">
+          <p class="section-tag">Misi Selesai</p>
+          <h2>Tahniah</h2>
+          <p class="section-note" id="finalMessage">
+            Anda telah menyelesaikan permainan bulatan ini.
+          </p>
+
+          <div class="result-ring">
+            <div>
+              <span>Skor Akhir</span>
+              <strong id="finalScore">0</strong>
+            </div>
+            <div>
+              <span>Bintang</span>
+              <strong id="finalStars">0 / 6</strong>
+            </div>
+          </div>
+
+          <div class="panel-actions">
+            <button class="primary-btn" id="restartGame">Main Semula</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
