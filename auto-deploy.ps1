@@ -47,6 +47,33 @@ function Get-OriginUrl {
     return $originUrl
 }
 
+function Get-VercelExecutable {
+    $candidates = @()
+
+    if ($env:APPDATA) {
+        $appDataCommand = Join-Path $env:APPDATA "npm\vercel.cmd"
+        if (Test-Path $appDataCommand) {
+            $candidates += $appDataCommand
+        }
+    }
+
+    $cmdCommand = Get-Command "vercel.cmd" -ErrorAction SilentlyContinue
+    if ($cmdCommand -and $cmdCommand.Source -and ($cmdCommand.Source -notin $candidates)) {
+        $candidates += $cmdCommand.Source
+    }
+
+    $genericCommand = Get-Command "vercel" -ErrorAction SilentlyContinue
+    if ($genericCommand -and $genericCommand.CommandType -eq "Application" -and $genericCommand.Source -and ($genericCommand.Source -notin $candidates)) {
+        $candidates += $genericCommand.Source
+    }
+
+    if ($candidates.Count -eq 0) {
+        return ""
+    }
+
+    return $candidates[0]
+}
+
 try {
     Require-Command -Name "git" | Out-Null
 
@@ -121,8 +148,8 @@ try {
     Write-Host ""
     Write-Host "=== Vercel Deploy ===" -ForegroundColor Cyan
 
-    $vercelCommand = Get-Command "vercel" -ErrorAction SilentlyContinue
-    if (-not $vercelCommand) {
+    $vercelExecutable = Get-VercelExecutable
+    if ([string]::IsNullOrWhiteSpace($vercelExecutable)) {
         Write-Host "Vercel CLI belum dipasang." -ForegroundColor Yellow
         Write-Host "Pasang sekali sahaja dengan: npm install -g vercel" -ForegroundColor Yellow
         exit 0
@@ -137,7 +164,7 @@ try {
         exit 0
     }
 
-    Invoke-Native -Description "Vercel deploy" -Command { vercel --prod --yes }
+    Invoke-Native -Description "Vercel deploy" -Command { & $vercelExecutable --prod --yes }
 } catch {
     Write-Host ""
     Write-Host $_.Exception.Message -ForegroundColor Red
