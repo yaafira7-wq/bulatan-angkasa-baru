@@ -287,6 +287,7 @@ button {
 .crossword-board {
   display: grid;
   grid-template-columns: repeat(9, 42px);
+  grid-template-rows: repeat(9, 42px);
   grid-auto-rows: 42px;
   gap: 4px;
 }
@@ -311,6 +312,19 @@ button {
   background: rgba(255, 255, 255, 0.95);
   color: #12131e;
   font-weight: 800;
+}
+
+.cell input:focus {
+  outline: none;
+  border-color: rgba(62, 98, 255, 0.95);
+  box-shadow: 0 0 0 3px rgba(92, 118, 255, 0.22);
+}
+
+.cell input.prefilled {
+  background: linear-gradient(135deg, rgba(255, 242, 160, 0.96), rgba(255, 223, 97, 0.95));
+  border-color: rgba(180, 136, 12, 0.42);
+  color: #5b4200;
+  cursor: default;
 }
 
 .cell-number {

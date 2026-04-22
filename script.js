@@ -24,6 +24,8 @@ const state = {
   viewedTerms: new Set(),
   currentScreen: "start",
   crosswordSolved: false,
+  crosswordDirection: "across",
+  activeCrosswordKey: "",
   dragSolved: false,
   boardPosition: 0,
   pendingTile: null,
@@ -66,11 +68,34 @@ const terms = {
 };
 
 const crosswordEntries = [
-  { id: 1, answer: "jejari", clue: "Garis dari pusat ke lilitan.", row: 0, col: 0, dir: "across" },
-  { id: 2, answer: "pusat", clue: "Titik tengah bulatan.", row: 0, col: 2, dir: "down" },
-  { id: 3, answer: "diameter", clue: "Dua kali jejari.", row: 2, col: 0, dir: "across" },
-  { id: 4, answer: "lengkok", clue: "Sebahagian daripada lilitan.", row: 0, col: 6, dir: "down" },
+  { id: 1, answer: "pusat", clue: "Titik tengah bulatan.", row: 0, col: 3, dir: "down", hints: [0] },
+  {
+    id: 2,
+    answer: "lilitan",
+    clue: "Perimeter atau sempadan luar bulatan.",
+    row: 0,
+    col: 5,
+    dir: "down",
+    hints: [0, 4],
+  },
+  { id: 3, answer: "jejari", clue: "Garis dari pusat ke lilitan.", row: 3, col: 0, dir: "across", hints: [0] },
+  {
+    id: 4,
+    answer: "diameter",
+    clue: "Garis lurus melalui pusat yang menyambungkan dua titik pada lilitan.",
+    row: 7,
+    col: 1,
+    dir: "across",
+    hints: [0, 4],
+  },
 ];
+
+const crosswordState = {
+  cells: new Map(),
+  inputs: new Map(),
+  entryKeys: new Map(),
+  editableKeys: [],
+};
 
 const dragLabels = ["Perentas", "Diameter", "Lilitan", "Pusat", "Jejari", "Sektor"];
 
@@ -147,16 +172,49 @@ document.querySelectorAll(".bubble").forEach((bubble) => {
 });
 
 function buildCrossword() {
+  crosswordBoard.innerHTML = "";
+  clueList.innerHTML = "";
+
   const cells = new Map();
+  const entryKeys = new Map();
+  let maxRow = 0;
+  let maxCol = 0;
+
   crosswordEntries.forEach((entry) => {
+    const keys = [];
     entry.answer.toUpperCase().split("").forEach((letter, index) => {
       const row = entry.row + (entry.dir === "down" ? index : 0);
       const col = entry.col + (entry.dir === "across" ? index : 0);
       const key = `${row}-${col}`;
-      if (!cells.has(key)) {
-        cells.set(key, { row, col, number: null, solution: letter });
+
+      maxRow = Math.max(maxRow, row);
+      maxCol = Math.max(maxCol, col);
+
+      if (cells.has(key)) {
+        const existing = cells.get(key);
+        if (existing.solution !== letter) {
+          throw new Error(`Silang kata mempunyai konflik huruf pada petak ${key}.`);
+        }
+
+        existing.entries[entry.dir] = { entryId: entry.id, index };
+        if ((entry.hints || []).includes(index)) {
+          existing.prefilled = true;
+        }
+      } else {
+        cells.set(key, {
+          row,
+          col,
+          number: null,
+          solution: letter,
+          prefilled: (entry.hints || []).includes(index),
+          entries: {
+            [entry.dir]: { entryId: entry.id, index },
+          },
+        });
       }
+      keys.push(key);
     });
+    entryKeys.set(entry.id, keys);
   });
 
   crosswordEntries.forEach((entry) => {
@@ -166,27 +224,50 @@ function buildCrossword() {
     }
   });
 
-  for (let row = 0; row < 9; row += 1) {
-    for (let col = 0; col < 9; col += 1) {
+  crosswordBoard.style.gridTemplateColumns = `repeat(${maxCol + 1}, 42px)`;
+  crosswordBoard.style.gridTemplateRows = `repeat(${maxRow + 1}, 42px)`;
+
+  const inputs = new Map();
+  const editableKeys = [];
+
+  for (let row = 0; row <= maxRow; row += 1) {
+    for (let col = 0; col <= maxCol; col += 1) {
       const key = `${row}-${col}`;
       const cell = document.createElement("div");
       cell.className = "cell";
       if (!cells.has(key)) {
         cell.classList.add("block");
       } else {
+        const cellData = cells.get(key);
         const input = document.createElement("input");
+        input.type = "text";
         input.maxLength = 1;
+        input.autocomplete = "off";
+        input.spellcheck = false;
+        input.inputMode = "text";
         input.dataset.key = key;
-        input.addEventListener("input", () => {
-          input.value = input.value.toUpperCase().replace(/[^A-Z]/g, "");
-        });
-        if (cells.get(key).number) {
+
+        if (cellData.prefilled) {
+          input.value = cellData.solution;
+          input.readOnly = true;
+          input.tabIndex = -1;
+          input.classList.add("prefilled");
+        } else {
+          editableKeys.push(key);
+          input.addEventListener("focus", handleCrosswordFocus);
+          input.addEventListener("click", handleCrosswordFocus);
+          input.addEventListener("input", handleCrosswordInput);
+          input.addEventListener("keydown", handleCrosswordKeydown);
+        }
+
+        if (cellData.number) {
           const number = document.createElement("span");
           number.className = "cell-number";
-          number.textContent = cells.get(key).number;
+          number.textContent = cellData.number;
           cell.appendChild(number);
         }
         cell.appendChild(input);
+        inputs.set(key, input);
       }
       crosswordBoard.appendChild(cell);
     }
@@ -194,25 +275,161 @@ function buildCrossword() {
 
   crosswordEntries.forEach((entry) => {
     const li = document.createElement("li");
-    li.textContent = `${entry.id}. ${entry.clue}`;
+    const direction = entry.dir === "across" ? "Melintang" : "Menegak";
+    li.textContent = `${entry.id}. (${direction}) ${entry.clue}`;
     clueList.appendChild(li);
   });
 
-  crosswordBoard.dataset.solutions = JSON.stringify(
-    Object.fromEntries([...cells.entries()].map(([key, value]) => [key, value.solution]))
-  );
+  crosswordState.cells = cells;
+  crosswordState.inputs = inputs;
+  crosswordState.entryKeys = entryKeys;
+  crosswordState.editableKeys = editableKeys;
 }
 
 buildCrossword();
 
-document.getElementById("checkCrossword").addEventListener("click", () => {
-  const solutions = JSON.parse(crosswordBoard.dataset.solutions);
-  let correct = 0;
-  let total = 0;
+function getCrosswordDirection(key) {
+  const cell = crosswordState.cells.get(key);
+  if (!cell) {
+    return "across";
+  }
 
-  crosswordBoard.querySelectorAll("input").forEach((input) => {
-    total += 1;
-    if (normalizeAnswer(input.value) === normalizeAnswer(solutions[input.dataset.key])) {
+  if (cell.entries[state.crosswordDirection]) {
+    return state.crosswordDirection;
+  }
+
+  if (cell.entries.across) {
+    return "across";
+  }
+
+  return "down";
+}
+
+function setCrosswordActive(key, direction = getCrosswordDirection(key)) {
+  state.activeCrosswordKey = key;
+  state.crosswordDirection = direction;
+}
+
+function focusCrosswordInput(key, direction = getCrosswordDirection(key)) {
+  const input = crosswordState.inputs.get(key);
+  if (!input) {
+    return;
+  }
+
+  setCrosswordActive(key, direction);
+  input.focus();
+  input.select();
+}
+
+function getCrosswordAdjacentKey(key, direction, step) {
+  const cell = crosswordState.cells.get(key);
+  if (!cell || !cell.entries[direction]) {
+    return "";
+  }
+
+  const { entryId, index } = cell.entries[direction];
+  const keys = crosswordState.entryKeys.get(entryId) || [];
+  let nextIndex = index + step;
+
+  while (nextIndex >= 0 && nextIndex < keys.length) {
+    const nextKey = keys[nextIndex];
+    const nextCell = crosswordState.cells.get(nextKey);
+    if (nextCell && !nextCell.prefilled) {
+      return nextKey;
+    }
+    nextIndex += step;
+  }
+
+  return "";
+}
+
+function clearCrosswordFeedback() {
+  crosswordFeedback.className = "feedback";
+  crosswordFeedback.textContent = "";
+}
+
+function handleCrosswordFocus(event) {
+  const key = event.currentTarget.dataset.key;
+  setCrosswordActive(key, getCrosswordDirection(key));
+  event.currentTarget.select();
+}
+
+function handleCrosswordInput(event) {
+  const input = event.currentTarget;
+  input.value = input.value.toUpperCase().replace(/[^A-Z]/g, "").slice(-1);
+
+  if (!input.value) {
+    return;
+  }
+
+  clearCrosswordFeedback();
+
+  const key = input.dataset.key;
+  const direction = getCrosswordDirection(key);
+  const nextKey = getCrosswordAdjacentKey(key, direction, 1);
+
+  if (nextKey) {
+    focusCrosswordInput(nextKey, direction);
+  }
+}
+
+function handleCrosswordKeydown(event) {
+  const input = event.currentTarget;
+  const key = input.dataset.key;
+  const direction = getCrosswordDirection(key);
+
+  if (event.key === "Backspace") {
+    event.preventDefault();
+    clearCrosswordFeedback();
+
+    if (input.value) {
+      input.value = "";
+      return;
+    }
+
+    const previousKey = getCrosswordAdjacentKey(key, direction, -1);
+    if (previousKey) {
+      const previousInput = crosswordState.inputs.get(previousKey);
+      previousInput.value = "";
+      focusCrosswordInput(previousKey, direction);
+    }
+    return;
+  }
+
+  if (event.key === "Delete") {
+    event.preventDefault();
+    clearCrosswordFeedback();
+    input.value = "";
+    return;
+  }
+
+  const arrowMap = {
+    ArrowRight: { direction: "across", step: 1 },
+    ArrowLeft: { direction: "across", step: -1 },
+    ArrowDown: { direction: "down", step: 1 },
+    ArrowUp: { direction: "down", step: -1 },
+  };
+
+  if (arrowMap[event.key]) {
+    event.preventDefault();
+    const move = arrowMap[event.key];
+    const nextKey = getCrosswordAdjacentKey(key, move.direction, move.step);
+    if (nextKey) {
+      focusCrosswordInput(nextKey, move.direction);
+    } else {
+      setCrosswordActive(key, move.direction);
+    }
+  }
+}
+
+document.getElementById("checkCrossword").addEventListener("click", () => {
+  let correct = 0;
+  const total = crosswordState.editableKeys.length;
+
+  crosswordState.editableKeys.forEach((key) => {
+    const input = crosswordState.inputs.get(key);
+    const solution = crosswordState.cells.get(key).solution;
+    if (normalizeAnswer(input.value) === normalizeAnswer(solution)) {
       correct += 1;
     }
   });
@@ -225,7 +442,7 @@ document.getElementById("checkCrossword").addEventListener("click", () => {
     }
     showFeedback(crosswordFeedback, "success", "Semua jawapan betul.");
   } else {
-    showFeedback(crosswordFeedback, "error", `Masih ada ${total - correct} kotak yang salah.`);
+    showFeedback(crosswordFeedback, "error", `Masih ada ${total - correct} kotak yang salah atau kosong.`);
   }
 });
 
