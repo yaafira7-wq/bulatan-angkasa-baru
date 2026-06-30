@@ -3,50 +3,83 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bulatan Angkasa</title>
+    <title>CircliX</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <div class="stars"></div>
 
     <header class="hud">
-      <div class="hud-card">
-        <span class="hud-label">Skor</span>
-        <strong id="scoreValue">0</strong>
+      <div class="hud-top">
+        <div class="brand-panel">
+          <span class="brand-title">CircliX</span>
+          <span class="brand-subtitle">Master of Circles</span>
+        </div>
       </div>
-      <div class="hud-card">
-        <span class="hud-label">Bintang</span>
-        <strong id="starValue">0 / 6</strong>
-      </div>
-      <div class="hud-card progress-card">
-        <span class="hud-label">Kemajuan Misi</span>
-        <div class="progress-bar">
-          <div id="progressFill"></div>
+      <div class="hud-cards">
+        <div class="hud-card">
+          <span class="hud-label">Skor</span>
+          <strong id="scoreValue">0</strong>
+        </div>
+        <div class="hud-card">
+          <span class="hud-label">Bintang</span>
+          <strong id="starValue">0 / 6</strong>
+        </div>
+        <div class="hud-card progress-card">
+          <span class="hud-label">Kemajuan Misi</span>
+          <div class="progress-bar">
+            <div id="progressFill"></div>
+          </div>
         </div>
       </div>
     </header>
 
     <main id="app">
       <section class="screen active hero-screen" data-screen="start">
+        <div class="hero-video" aria-hidden="true">
+          <div class="orbit orbit-1"></div>
+          <div class="orbit orbit-2"></div>
+          <div class="orbit orbit-3"></div>
+          <div class="video-glow"></div>
+        </div>
         <div class="hero-content">
-          <p class="kicker">Game Pembelajaran Interaktif</p>
-          <h1>TEKA SILANG KATA<br />MISTERI BULATAN</h1>
-          <p class="subtitle">
-            Terokai istilah bulatan, jawab cabaran matematik, seret label ke
-            tempat yang betul, dan habiskan misi anda di dunia angkasa.
-          </p>
-          <div class="hero-actions">
-            <button class="primary-btn" data-next="terms">Mula</button>
+          <div class="hero-top-bar">
+            <div class="language-tabs">
+              <button class="lang-btn active" data-lang="bm">BM</button>
+              <button class="lang-btn" data-lang="en">EN</button>
+            </div>
           </div>
+          <p class="kicker" id="heroKicker">Game Pembelajaran Interaktif</p>
+          <h1 id="heroTitle">CircliX: Master of Circles</h1>
+          <p class="subtitle" id="heroSubtitle">
+            Terokai dunia bulatan melalui nota, latihan interaktif dan arena permainan.
+          </p>
+          <div class="start-form">
+            <label for="playerName" id="nameLabel">Nama</label>
+            <input id="playerName" type="text" placeholder="Masukkan nama anda" />
+            <label for="playerEmail" id="emailLabel">E-mel</label>
+            <input id="playerEmail" type="email" placeholder="contoh@mail.com" />
+            <div id="formFeedback" class="feedback"></div>
+          </div>
+          <div class="hero-actions">
+            <button class="primary-btn" id="startGameButton">Mula</button>
+          </div>
+          <p class="form-note" id="formNote">Isi nama dan e-mel untuk memulakan misi anda.</p>
         </div>
       </section>
 
-      <section class="screen panel-screen" data-screen="terms">
+      <section id="nota" class="screen panel-screen" data-screen="terms">
         <div class="panel wide">
-          <p class="section-tag">Zon 1</p>
-          <h2>Kenali Bahagian Bulatan</h2>
-          <p class="section-note">
-            Tekan pada setiap bulatan untuk melihat info dan penerangan ringkas.
+          <p class="section-tag" id="noteSectionTag">Nota</p>
+          <div class="page-tabs page-tabs-terms">
+            <button class="tab-btn" data-i18n="tabNota">Nota</button>
+            <button class="tab-btn" data-i18n="tabLatihan">Latihan</button>
+            <button class="tab-btn" data-i18n="tabBoard">Papan Permainan</button>
+            <button class="tab-btn" data-i18n="tabPandangan">Pandangan</button>
+          </div>
+          <h2 id="noteHeading">Bahagian Bulatan</h2>
+          <p class="section-note" id="noteDescription">
+            Klik setiap elemen di atas untuk melihat info ringkas di bawah.
           </p>
 
           <div class="bubble-map">
@@ -66,20 +99,26 @@
             <p id="definitionText">
               Tekan mana-mana bulatan untuk melihat maklumat istilah tersebut.
             </p>
+            <div class="definition-visual" id="definitionVisual" aria-hidden="true">
+              <svg viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="110" cy="110" r="90" stroke="#8a98ff" stroke-width="12" fill="rgba(255,255,255,0.04)" />
+                <circle cx="110" cy="110" r="6" fill="#fff" />
+              </svg>
+            </div>
           </div>
 
           <div class="panel-actions">
-            <button class="ghost-btn" data-next="start">Sebelumnya</button>
-            <button class="primary-btn" data-next="crossword">Seterusnya</button>
+            <button class="ghost-btn" id="termsPrevBtn" data-next="start">Sebelumnya</button>
+            <button class="primary-btn" id="termsNextBtn" data-next="crossword">Seterusnya</button>
           </div>
         </div>
       </section>
 
       <section class="screen panel-screen" data-screen="crossword">
         <div class="panel wide">
-          <p class="section-tag">Zon 2</p>
-          <h2>Teka Silang Kata Bulatan</h2>
-          <p class="section-note">
+          <p class="section-tag" id="crosswordSectionTag">Zon 2</p>
+          <h2 id="crosswordHeading">Teka Silang Kata Bulatan</h2>
+          <p class="section-note" id="crosswordDescription">
             Ikut petunjuk melintang dan menegak seperti silang kata sebenar.
             Huruf akan bergerak automatik ke kotak seterusnya dan beberapa
             kotak diberi huruf petunjuk.
@@ -89,13 +128,13 @@
             <div class="crossword-board" id="crosswordBoard"></div>
             <div class="crossword-side">
               <div class="clue-box">
-                <h3>Petunjuk</h3>
+                <h3 id="clueHeading">Petunjuk</h3>
                 <div class="clue-group">
-                  <h4>Melintang</h4>
+                  <h4 id="acrossLabel">Melintang</h4>
                   <ol id="acrossClueList"></ol>
                 </div>
                 <div class="clue-group">
-                  <h4>Menegak</h4>
+                  <h4 id="downLabel">Menegak</h4>
                   <ol id="downClueList"></ol>
                 </div>
               </div>
@@ -107,17 +146,17 @@
           </div>
 
           <div class="panel-actions">
-            <button class="ghost-btn" data-next="terms">Sebelumnya</button>
-            <button class="primary-btn" data-next="dragdrop">Seterusnya</button>
+            <button class="ghost-btn" id="crosswordPrevBtn" data-next="terms">Sebelumnya</button>
+            <button class="primary-btn" id="crosswordNextBtn" data-next="dragdrop">Seterusnya</button>
           </div>
         </div>
       </section>
 
       <section class="screen panel-screen" data-screen="dragdrop">
         <div class="panel wide">
-          <p class="section-tag">Zon 3</p>
-          <h2>Seret Label Bahagian Bulatan</h2>
-          <p class="section-note">
+          <p class="section-tag" id="dragSectionTag">Zon 3</p>
+          <h2 id="dragHeading">Seret Label Bahagian Bulatan</h2>
+          <p class="section-note" id="dragDescription">
             Seret label ke tempat yang betul pada gambar rajah bulatan.
           </p>
 
@@ -149,17 +188,17 @@
           <div class="feedback" id="dragFeedback"></div>
 
           <div class="panel-actions">
-            <button class="ghost-btn" data-next="crossword">Sebelumnya</button>
-            <button class="primary-btn" data-next="mathopoly">Seterusnya</button>
+            <button class="ghost-btn" id="dragPrevBtn" data-next="crossword">Sebelumnya</button>
+            <button class="primary-btn" id="dragNextBtn" data-next="mathopoly">Seterusnya</button>
           </div>
         </div>
       </section>
 
       <section class="screen panel-screen" data-screen="mathopoly">
         <div class="panel wide">
-          <p class="section-tag">Zon 4</p>
-          <h2>Mathopoly Mini</h2>
-          <p class="section-note">
+          <p class="section-tag" id="mathopolySectionTag">Zon 4</p>
+          <h2 id="mathopolyHeading">Mathopoly Mini</h2>
+          <p class="section-note" id="mathopolyDescription">
             Pusing dadu, gerak ke hadapan, dan jawab soalan ringkas tentang bulatan.
           </p>
 
@@ -169,7 +208,7 @@
             </div>
             <div class="board-panel">
               <div class="player-card">
-                <h3>Pemain</h3>
+                <h3 id="playerLabel">Pemain</h3>
                 <p id="playerPosition">Petak 1 / 8</p>
               </div>
               <div class="dice-card">
@@ -177,7 +216,7 @@
                 <button class="primary-btn" id="rollDice">Pusing Dadu</button>
               </div>
               <div class="question-box">
-                <h3>Cabaran</h3>
+                <h3 id="challengeHeading">Cabaran</h3>
                 <p id="boardPrompt">Tekan butang untuk mula bergerak.</p>
               </div>
               <div class="board-answer">
@@ -189,17 +228,17 @@
           </div>
 
           <div class="panel-actions">
-            <button class="ghost-btn" data-next="dragdrop">Sebelumnya</button>
-            <button class="primary-btn" data-next="finish">Lihat Keputusan</button>
+            <button class="ghost-btn" id="mathopolyPrevBtn" data-next="dragdrop">Sebelumnya</button>
+            <button class="primary-btn" id="mathopolyFinishBtn" data-next="finish">Lihat Keputusan</button>
           </div>
         </div>
       </section>
 
       <section class="screen panel-screen" data-screen="finish">
         <div class="panel">
-          <p class="section-tag">Misi Selesai</p>
-          <h2>Tahniah</h2>
-          <p class="section-note" id="finalMessage">
+          <p class="section-tag" id="finishSectionTag">Misi Selesai</p>
+          <h2 id="finishHeading">Tahniah</h2>
+          <p class="section-note" id="finishDescription">
             Anda telah menyelesaikan permainan bulatan ini.
           </p>
 

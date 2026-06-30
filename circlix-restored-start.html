@@ -1,0 +1,4487 @@
+<!DOCTYPE html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Circlix Start Template</title>
+    <style>
+      :root {
+        --bg-top: #050923;
+        --bg-mid: #10164f;
+        --bg-bottom: #262674;
+        --panel: rgba(15, 24, 92, 0.92);
+        --panel-border: rgba(92, 194, 255, 0.72);
+        --text: #f5f8ff;
+        --muted: rgba(221, 229, 255, 0.72);
+        --yellow: #ffd553;
+        --blue: #1e69ff;
+        --blue-deep: #1033cc;
+        --purple: #742bdf;
+        --teal: #0d7185;
+        --orange: #af640d;
+        --red: #8e1930;
+        --shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at 50% 120%, rgba(127, 129, 255, 0.35), transparent 24%),
+          linear-gradient(180deg, var(--bg-top) 0%, #0a1034 30%, var(--bg-mid) 70%, var(--bg-bottom) 100%);
+      }
+
+      body {
+        overflow-x: hidden;
+      }
+
+      .page {
+        position: relative;
+        min-height: 100vh;
+        padding: 22px 28px 40px;
+        overflow: hidden;
+        isolation: isolate;
+      }
+
+      .stars,
+      .stars::before,
+      .stars::after {
+        position: absolute;
+        inset: 0;
+        content: "";
+        pointer-events: none;
+      }
+
+      .stars {
+        background:
+          radial-gradient(circle, rgba(255, 255, 255, 0.86) 1.2px, transparent 1.8px) 0 0 / 92px 92px,
+          radial-gradient(circle, rgba(255, 221, 131, 0.74) 1.1px, transparent 1.8px) 30px 40px / 128px 128px,
+          radial-gradient(circle, rgba(144, 196, 255, 0.4) 1px, transparent 1.8px) 60px 10px / 180px 180px;
+        opacity: 0.62;
+        z-index: -5;
+      }
+
+      .stars::before {
+        background:
+          radial-gradient(circle at 8% 18%, rgba(89, 127, 255, 0.95), rgba(25, 49, 152, 0.9) 45%, transparent 46%) no-repeat,
+          radial-gradient(circle at 91% 82%, rgba(84, 126, 255, 0.96), rgba(29, 51, 138, 0.9) 44%, transparent 46%) no-repeat;
+        background-size: 78px 78px, 118px 118px;
+      }
+
+      .stars::after {
+        background:
+          radial-gradient(circle at 91% 21%, rgba(196, 101, 255, 0.28) 0, rgba(196, 101, 255, 0.12) 36%, transparent 37%) no-repeat,
+          radial-gradient(circle at 18% 93%, rgba(255, 255, 255, 0.15) 0, rgba(255, 255, 255, 0.06) 32%, transparent 33%) no-repeat,
+          radial-gradient(circle at 78% 96%, rgba(255, 255, 255, 0.14) 0, rgba(255, 255, 255, 0.04) 26%, transparent 27%) no-repeat,
+          linear-gradient(180deg, transparent 82%, rgba(177, 192, 255, 0.18) 100%);
+        background-size: 148px 148px, 320px 320px, 260px 260px, 100% 100%;
+      }
+
+      .motion-layer {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: -3;
+        overflow: hidden;
+      }
+
+      .motion-layer span {
+        position: absolute;
+        display: block;
+      }
+
+      .nebula {
+        border-radius: 50%;
+        filter: blur(20px);
+        opacity: 0.42;
+        animation: nebulaDrift 18s ease-in-out infinite alternate;
+      }
+
+      .nebula-a {
+        top: 16%;
+        left: 22%;
+        width: 180px;
+        height: 110px;
+        background: radial-gradient(circle, rgba(79, 118, 255, 0.32), transparent 70%);
+      }
+
+      .nebula-b {
+        right: 16%;
+        top: 38%;
+        width: 220px;
+        height: 140px;
+        background: radial-gradient(circle, rgba(169, 109, 255, 0.24), transparent 70%);
+        animation-delay: -6s;
+      }
+
+      .nebula-c {
+        left: 38%;
+        bottom: 12%;
+        width: 240px;
+        height: 120px;
+        background: radial-gradient(circle, rgba(92, 208, 255, 0.18), transparent 72%);
+        animation-delay: -10s;
+      }
+
+      .floating-orb {
+        border-radius: 50%;
+        box-shadow: 0 0 24px rgba(118, 149, 255, 0.22);
+        animation: orbFloat 12s ease-in-out infinite;
+      }
+
+      .orb-a {
+        left: 8%;
+        top: 18%;
+        width: 26px;
+        height: 26px;
+        background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.82), rgba(111, 141, 255, 0.95) 42%, rgba(35, 65, 183, 0.88) 100%);
+      }
+
+      .orb-b {
+        right: 10%;
+        bottom: 20%;
+        width: 18px;
+        height: 18px;
+        background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.78), rgba(146, 117, 255, 0.88) 46%, rgba(72, 39, 168, 0.82) 100%);
+        animation-delay: -4s;
+      }
+
+      .orb-c {
+        left: 66%;
+        top: 26%;
+        width: 14px;
+        height: 14px;
+        background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.72), rgba(82, 208, 255, 0.92) 45%, rgba(18, 99, 159, 0.82) 100%);
+        animation-delay: -8s;
+      }
+
+      .comet {
+        width: 120px;
+        height: 3px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 236, 183, 0.92), rgba(116, 177, 255, 0));
+        opacity: 0.62;
+        filter: drop-shadow(0 0 10px rgba(130, 186, 255, 0.3));
+        animation: cometSweep 16s linear infinite;
+      }
+
+      .comet::after {
+        content: "";
+        position: absolute;
+        right: 4px;
+        top: -3px;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #fff4cb;
+        box-shadow: 0 0 12px rgba(255, 244, 203, 0.7);
+      }
+
+      .comet-a {
+        top: 14%;
+        left: -12%;
+        transform: rotate(18deg);
+      }
+
+      .comet-b {
+        top: 58%;
+        right: -18%;
+        width: 88px;
+        transform: rotate(-12deg);
+        animation-delay: -8s;
+      }
+
+      .pulse-ring {
+        border-radius: 50%;
+        border: 1px solid rgba(161, 123, 255, 0.3);
+        animation: pulseRing 9s ease-in-out infinite;
+      }
+
+      .pulse-ring-a {
+        right: 10%;
+        top: 16%;
+        width: 130px;
+        height: 130px;
+      }
+
+      .pulse-ring-b {
+        left: 14%;
+        bottom: 14%;
+        width: 94px;
+        height: 94px;
+        border-color: rgba(104, 170, 255, 0.24);
+        animation-delay: -4.5s;
+      }
+
+      .orbit {
+        position: absolute;
+        border-radius: 999px;
+        pointer-events: none;
+        z-index: -1;
+      }
+
+      .orbit-main {
+        top: 20px;
+        left: 50%;
+        width: min(520px, 54vw);
+        height: min(220px, 24vw);
+        transform: translateX(-50%);
+        border: 2px solid rgba(113, 158, 255, 0.26);
+        box-shadow: 0 0 26px rgba(82, 127, 255, 0.14);
+        animation: orbitDrift 18s ease-in-out infinite;
+      }
+
+      .orbit-title {
+        top: 120px;
+        left: 50%;
+        width: min(500px, 52vw);
+        height: 72px;
+        transform: translateX(-50%) rotate(-6deg);
+        border: 3px solid rgba(66, 88, 255, 0.35);
+        animation: orbitTilt 13s ease-in-out infinite;
+      }
+
+      .topbar {
+        position: relative;
+        z-index: 3;
+        width: min(1180px, 100%);
+        margin: 0 auto;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 24px;
+      }
+
+      .topic-card {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 12px 16px;
+        border-radius: 20px;
+        border: 2px solid rgba(62, 180, 255, 0.8);
+        background: linear-gradient(180deg, rgba(6, 18, 78, 0.95), rgba(10, 23, 92, 0.78));
+        box-shadow:
+          inset 0 0 0 2px rgba(142, 225, 255, 0.08),
+          0 0 28px rgba(47, 129, 255, 0.18);
+      }
+
+      .topic-icon {
+        width: 42px;
+        height: 42px;
+        color: #69bcff;
+        flex: 0 0 auto;
+      }
+
+      .topic-lines {
+        display: grid;
+        gap: 2px;
+        text-transform: uppercase;
+        font-weight: 900;
+        letter-spacing: 0.06em;
+        font-size: 14px;
+        line-height: 1.1;
+      }
+
+      .toolbar {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px;
+        border-radius: 999px;
+        border: 2px solid rgba(255, 190, 84, 0.34);
+        background: linear-gradient(180deg, rgba(18, 33, 105, 0.9), rgba(12, 24, 86, 0.78));
+        box-shadow: 0 14px 30px rgba(0, 0, 0, 0.22);
+      }
+
+      .lang-group,
+      .toggle-group {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .lang-btn,
+      .toggle-btn {
+        appearance: none;
+        border: 0;
+        cursor: pointer;
+        color: var(--text);
+      }
+
+      .lang-btn {
+        min-width: 64px;
+        padding: 14px 18px;
+        border-radius: 999px;
+        background: rgba(23, 44, 133, 0.95);
+        font-weight: 900;
+        font-size: 16px;
+      }
+
+      .lang-btn.active {
+        color: #1a2147;
+        background: linear-gradient(180deg, #ffe47d 0%, #ffc93a 100%);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+      }
+
+      .toggle-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 10px 6px 8px;
+        border-radius: 999px;
+        background: rgba(14, 28, 96, 0.86);
+        border: 1px solid rgba(101, 175, 255, 0.22);
+      }
+
+      .toggle-btn.off {
+        opacity: 0.68;
+      }
+
+      .toggle-icon {
+        width: 26px;
+        height: 26px;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        background: rgba(60, 92, 204, 0.42);
+        color: #fff;
+      }
+
+      .toggle-copy {
+        display: grid;
+        line-height: 1;
+        text-align: left;
+      }
+
+      .toggle-copy small {
+        font-size: 10px;
+        color: rgba(230, 238, 255, 0.72);
+      }
+
+      .toggle-copy strong {
+        font-size: 10px;
+        color: var(--yellow);
+        font-weight: 900;
+      }
+
+      .hero {
+        width: min(1180px, 100%);
+        margin: 0 auto 0;
+        display: grid;
+        grid-template-columns: 240px minmax(300px, 1fr) 220px;
+        grid-template-areas:
+          ". brand ."
+          ". form ."
+          "mascot menu satellite";
+        align-items: start;
+        gap: 12px 16px;
+      }
+
+      .screen-panel {
+        display: none;
+      }
+
+      .screen-panel.active {
+        display: block;
+      }
+
+      .brand {
+        grid-area: brand;
+        position: relative;
+        text-align: center;
+        display: grid;
+        justify-items: center;
+        gap: 8px;
+        padding-top: 4px;
+      }
+
+      .brand::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 8px;
+        width: min(420px, 70%);
+        height: 120px;
+        transform: translateX(-50%);
+        border-radius: 999px;
+        background: radial-gradient(circle, rgba(111, 147, 255, 0.28), rgba(82, 88, 255, 0.12) 44%, transparent 72%);
+        filter: blur(6px);
+        pointer-events: none;
+      }
+
+      .brand::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 36px;
+        width: min(460px, 82%);
+        height: 86px;
+        transform: translateX(-50%);
+        border-radius: 999px;
+        border: 1px solid rgba(122, 167, 255, 0.2);
+        box-shadow: inset 0 0 18px rgba(120, 145, 255, 0.08);
+        pointer-events: none;
+      }
+
+      .brand-title-row {
+        position: relative;
+        z-index: 2;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 18px;
+        width: 100%;
+        margin-top: 0;
+      }
+
+      .brand-emblem {
+        position: relative;
+        width: 92px;
+        height: 92px;
+        margin: 0;
+        flex: 0 0 auto;
+        filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.28));
+        animation: emblemFloat 6.2s ease-in-out infinite;
+      }
+
+      .brand-emblem svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+
+      .brand-orbit-line {
+        position: absolute;
+        left: 50%;
+        top: 2px;
+        width: min(600px, 96%);
+        transform: translateX(-50%);
+        opacity: 0.8;
+        pointer-events: none;
+      }
+
+      .brand-side-glyph {
+        position: absolute;
+        top: -4px;
+        left: 50%;
+        width: 98px;
+        height: 98px;
+        transform: translateX(-344px);
+        opacity: 0.9;
+        filter: drop-shadow(0 12px 22px rgba(0, 0, 0, 0.24));
+        animation: glyphRotate 18s linear infinite;
+      }
+
+      .brand-side-glyph svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+
+      .brand-side-glyph::after {
+        content: "";
+        position: absolute;
+        inset: 22px;
+        border-radius: 50%;
+        border: 1px dashed rgba(121, 196, 255, 0.28);
+      }
+
+      .title {
+        position: relative;
+        display: inline-grid;
+        grid-auto-flow: column;
+        justify-content: center;
+        align-items: end;
+        gap: 0;
+        margin: 0;
+        font-size: clamp(58px, 7.2vw, 96px);
+        line-height: 0.9;
+        letter-spacing: 0.05em;
+        font-family: "Trebuchet MS", "Segoe UI", Tahoma, sans-serif;
+        font-style: normal;
+        font-weight: 900;
+        text-transform: uppercase;
+        transform: perspective(900px) rotateX(6deg);
+        filter: drop-shadow(0 16px 24px rgba(0, 0, 0, 0.25));
+        animation: titleBob 6.2s ease-in-out infinite;
+      }
+
+      .title::before {
+        content: "";
+        position: absolute;
+        inset: 18% -3% 12%;
+        border-radius: 34px;
+        background:
+          linear-gradient(180deg, rgba(27, 47, 147, 0.26), rgba(10, 18, 72, 0.04)),
+          radial-gradient(circle at 50% 45%, rgba(132, 164, 255, 0.16), transparent 70%);
+        box-shadow:
+          0 0 36px rgba(73, 110, 255, 0.16),
+          inset 0 0 18px rgba(255, 255, 255, 0.04);
+        z-index: -1;
+      }
+
+      .title-main,
+      .title-accent {
+        position: relative;
+        -webkit-text-stroke: 2px rgba(226, 239, 255, 0.88);
+        text-shadow:
+          0 5px 0 rgba(68, 101, 210, 0.92),
+          0 0 24px rgba(66, 104, 255, 0.28),
+          0 0 44px rgba(94, 128, 255, 0.24),
+          0 18px 28px rgba(0, 0, 0, 0.28);
+      }
+
+      .title-main {
+        background: linear-gradient(180deg, #ffffff 0%, #dce9ff 52%, #a7c5ff 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: 0.08em;
+      }
+
+      .title-accent {
+        margin-left: -0.02em;
+        background: linear-gradient(180deg, #ffef94 0%, #ffc936 55%, #ff9c17 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-size: 1em;
+        transform: translateY(0);
+      }
+
+      .title-accent::after {
+        content: "";
+        position: absolute;
+        left: -20%;
+        top: 54%;
+        width: 142%;
+        height: 0.2em;
+        border-radius: 999px;
+        border: 4px solid rgba(255, 179, 46, 0.94);
+        border-left-color: transparent;
+        border-right-color: transparent;
+        transform: rotate(-18deg);
+      }
+
+      .title-accent::before {
+        content: "";
+        position: absolute;
+        top: -18%;
+        right: -20%;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.96), rgba(255, 218, 101, 0.78) 60%, transparent 70%);
+        box-shadow: 0 0 14px rgba(255, 220, 106, 0.68);
+      }
+
+      .subtitle-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 2px;
+        padding: 10px 18px;
+        border-radius: 999px;
+        border: 2px solid rgba(69, 87, 255, 0.72);
+        background: linear-gradient(180deg, rgba(11, 14, 75, 0.95), rgba(7, 11, 56, 0.9));
+        color: var(--yellow);
+        font-style: italic;
+        font-weight: 900;
+        font-size: clamp(24px, 2.4vw, 38px);
+        text-transform: uppercase;
+        box-shadow: var(--shadow);
+        animation: subtitlePulse 5.5s ease-in-out infinite;
+      }
+
+      .subtitle-pill span {
+        font-size: 18px;
+      }
+
+      .mission-card {
+        grid-area: form;
+        width: min(100%, 352px);
+        justify-self: center;
+        padding: 16px 18px 20px;
+        border-radius: 24px;
+        border: 1.8px solid var(--panel-border);
+        background:
+          radial-gradient(circle at top center, rgba(56, 104, 255, 0.18), transparent 42%),
+          linear-gradient(180deg, rgba(22, 36, 122, 0.96), rgba(11, 20, 84, 0.96));
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.08),
+          0 18px 38px rgba(2, 8, 42, 0.38);
+      }
+
+      .field {
+        display: grid;
+        grid-template-columns: 44px 1fr;
+        gap: 10px;
+        align-items: center;
+        margin-bottom: 12px;
+      }
+
+      .field-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(180deg, rgba(48, 108, 255, 0.96), rgba(20, 58, 174, 0.92));
+        border: 1px solid rgba(130, 199, 255, 0.52);
+        box-shadow: 0 10px 20px rgba(9, 42, 126, 0.3);
+      }
+
+      .field-copy {
+        display: grid;
+        gap: 6px;
+      }
+
+      .field-copy label {
+        font-size: 16px;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .input-shell {
+        display: flex;
+        align-items: center;
+        min-height: 50px;
+        padding: 0 16px;
+        border-radius: 14px;
+        border: 1.5px solid rgba(83, 138, 255, 0.62);
+        background: rgba(5, 10, 42, 0.86);
+      }
+
+      .input-shell input {
+        display: block;
+        width: 100%;
+        min-height: 26px;
+        padding: 4px 2px 5px;
+        border: 0;
+        background: transparent;
+        color: var(--text);
+        outline: none;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 1.45;
+        letter-spacing: 0.01em;
+        appearance: none;
+        -webkit-appearance: none;
+      }
+
+      .input-shell input::placeholder {
+        color: rgba(214, 221, 255, 0.52);
+      }
+
+      .start-btn {
+        width: 100%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        margin-top: 2px;
+        padding: 14px 20px;
+        border-radius: 999px;
+        border: 0;
+        cursor: pointer;
+        background: linear-gradient(180deg, var(--blue) 0%, var(--blue-deep) 100%);
+        color: #081640;
+        font-size: 18px;
+        font-weight: 900;
+        text-transform: uppercase;
+        box-shadow:
+          inset 0 2px 0 rgba(255, 255, 255, 0.35),
+          0 0 0 3px rgba(42, 220, 255, 0.08),
+          0 16px 30px rgba(8, 50, 196, 0.28);
+      }
+
+      .start-icon {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: rgba(255, 255, 255, 0.16);
+      }
+
+      .form-feedback {
+        min-height: 18px;
+        margin: 2px 0 10px;
+        color: #ffd3d3;
+        font-size: 13px;
+        text-align: center;
+      }
+
+      .form-note {
+        margin: 10px 0 0;
+        text-align: center;
+        font-size: 11px;
+        color: var(--muted);
+      }
+
+      .menu-grid {
+        grid-area: menu;
+        width: min(100%, 352px);
+        justify-self: center;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .menu-btn {
+        appearance: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        min-height: 50px;
+        padding: 10px 14px;
+        border-radius: 18px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        cursor: pointer;
+        color: #fff;
+        font-size: 15px;
+        font-weight: 900;
+        text-transform: uppercase;
+        box-shadow: 0 14px 26px rgba(0, 0, 0, 0.18);
+      }
+
+      .menu-btn svg {
+        width: 18px;
+        height: 18px;
+        flex: 0 0 auto;
+      }
+
+      .menu-btn.guide {
+        background: linear-gradient(180deg, rgba(121, 45, 220, 0.96), rgba(70, 16, 145, 0.96));
+      }
+
+      .menu-btn.leaderboard {
+        background: linear-gradient(180deg, rgba(18, 121, 137, 0.96), rgba(12, 79, 96, 0.96));
+      }
+
+      .menu-btn.about {
+        background: linear-gradient(180deg, rgba(179, 112, 22, 0.96), rgba(120, 63, 12, 0.96));
+      }
+
+      .menu-btn.exit {
+        background: linear-gradient(180deg, rgba(155, 34, 57, 0.96), rgba(95, 18, 34, 0.96));
+      }
+
+      .menu-icon {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: rgba(255, 255, 255, 0.15);
+      }
+
+      .mascot-wrap {
+        grid-area: mascot;
+        align-self: start;
+        justify-self: center;
+        position: relative;
+        width: 182px;
+        margin-top: 58px;
+        padding-top: 46px;
+      }
+
+      .bubble {
+        position: absolute;
+        top: -56px;
+        right: -8px;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 14px;
+        min-height: 78px;
+        max-width: 150px;
+        border-radius: 16px;
+        border: 1px solid rgba(108, 170, 255, 0.26);
+        background: linear-gradient(180deg, rgba(10, 18, 76, 0.94), rgba(8, 12, 56, 0.92));
+        color: #fff;
+        font-size: 12px;
+        line-height: 1.4;
+        text-align: center;
+        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.22);
+      }
+
+      .bubble::after {
+        content: "";
+        position: absolute;
+        left: 26px;
+        bottom: -11px;
+        border-width: 10px 8px 0 0;
+        border-style: solid;
+        border-color: rgba(8, 12, 56, 0.92) transparent transparent transparent;
+      }
+
+      .mascot-svg {
+        width: 100%;
+        filter: drop-shadow(0 18px 26px rgba(0, 0, 0, 0.32));
+        position: relative;
+        z-index: 1;
+        animation: mascotFloat 6.5s ease-in-out infinite;
+      }
+
+      .flag-icon {
+        width: 36px;
+        margin: -6px 0 0 4px;
+      }
+
+      .satellite {
+        grid-area: satellite;
+        align-self: end;
+        justify-self: center;
+        width: 110px;
+        margin-top: 44px;
+        filter: drop-shadow(0 16px 26px rgba(0, 0, 0, 0.28));
+        animation: satelliteFloat 8s ease-in-out infinite;
+      }
+
+      .modal[hidden] {
+        display: none;
+      }
+
+      .modal {
+        position: fixed;
+        inset: 0;
+        z-index: 20;
+        display: grid;
+        place-items: center;
+        padding: 20px;
+      }
+
+      .modal-backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(4, 8, 29, 0.72);
+        backdrop-filter: blur(6px);
+      }
+
+      .modal-card {
+        position: relative;
+        width: min(520px, 100%);
+        border-radius: 26px;
+        border: 1px solid rgba(87, 178, 255, 0.4);
+        background: linear-gradient(180deg, rgba(12, 21, 82, 0.96), rgba(8, 15, 57, 0.98));
+        padding: 24px 24px 22px;
+        box-shadow: var(--shadow);
+      }
+
+      .modal-close {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        border: 0;
+        background: rgba(255, 255, 255, 0.08);
+        color: #fff;
+        cursor: pointer;
+        font-size: 24px;
+      }
+
+      .modal-kicker {
+        margin: 0 0 6px;
+        color: var(--yellow);
+        font-size: 13px;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .modal-title {
+        margin: 0 0 12px;
+        font-size: 28px;
+      }
+
+      .modal-content {
+        color: rgba(238, 243, 255, 0.86);
+        line-height: 1.6;
+      }
+
+      .modal-content ol {
+        padding-left: 20px;
+      }
+
+      .leaderboard {
+        display: grid;
+        gap: 10px;
+      }
+
+      @keyframes titleBob {
+        0%,
+        100% {
+          transform: perspective(700px) rotateX(8deg) translateY(0);
+        }
+        50% {
+          transform: perspective(700px) rotateX(8deg) translateY(-4px);
+        }
+      }
+
+      @keyframes rocketHover {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-8px);
+        }
+      }
+
+      @keyframes emblemFloat {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-6px);
+        }
+      }
+
+      @keyframes glyphRotate {
+        from {
+          transform: translateX(-305px) rotate(0deg);
+        }
+        to {
+          transform: translateX(-305px) rotate(360deg);
+        }
+      }
+
+      @keyframes orbitDrift {
+        0%,
+        100% {
+          transform: translateX(-50%) rotate(0deg);
+        }
+        50% {
+          transform: translateX(-50%) rotate(4deg);
+        }
+      }
+
+      @keyframes orbitTilt {
+        0%,
+        100% {
+          transform: translateX(-50%) rotate(-6deg) scaleX(1);
+        }
+        50% {
+          transform: translateX(-50%) rotate(-2deg) scaleX(1.03);
+        }
+      }
+
+      @keyframes subtitlePulse {
+        0%,
+        100% {
+          box-shadow: var(--shadow);
+        }
+        50% {
+          box-shadow:
+            0 20px 38px rgba(0, 0, 0, 0.22),
+            0 0 24px rgba(98, 123, 255, 0.18);
+        }
+      }
+
+      @keyframes mascotFloat {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-7px);
+        }
+      }
+
+      @keyframes satelliteFloat {
+        0%,
+        100% {
+          transform: translateY(0) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-6px) rotate(-4deg);
+        }
+      }
+
+      @keyframes nebulaDrift {
+        0% {
+          transform: translate3d(-10px, 0, 0) scale(1);
+        }
+        100% {
+          transform: translate3d(14px, -18px, 0) scale(1.08);
+        }
+      }
+
+      @keyframes orbFloat {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      @keyframes cometSweep {
+        0% {
+          transform: translateX(0) translateY(0) rotate(18deg);
+          opacity: 0;
+        }
+        8%,
+        60% {
+          opacity: 0.64;
+        }
+        100% {
+          transform: translateX(120vw) translateY(30px) rotate(18deg);
+          opacity: 0;
+        }
+      }
+
+      @keyframes pulseRing {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 0.36;
+        }
+        50% {
+          transform: scale(1.08);
+          opacity: 0.14;
+        }
+      }
+
+      .leader-row {
+        display: grid;
+        grid-template-columns: 32px 1fr auto;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 14px;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      .leader-row.current {
+        border: 1px solid rgba(255, 210, 83, 0.32);
+      }
+
+      .leader-rank {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: rgba(49, 88, 210, 0.42);
+        font-weight: 900;
+      }
+
+      .leader-meta strong,
+      .leader-score strong {
+        display: block;
+      }
+
+      .leader-meta span,
+      .leader-score span {
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      .ghost-action {
+        margin-top: 12px;
+        padding: 12px 16px;
+        border-radius: 999px;
+        border: 1px solid rgba(108, 188, 255, 0.3);
+        background: rgba(255, 255, 255, 0.06);
+        color: #fff;
+        cursor: pointer;
+        font-weight: 800;
+      }
+
+      .content-shell {
+        width: min(1120px, 100%);
+        margin: 14px auto 0;
+      }
+
+      .content-card {
+        border-radius: 28px;
+        border: 1.8px solid rgba(100, 183, 255, 0.34);
+        background:
+          radial-gradient(circle at top center, rgba(72, 109, 255, 0.14), transparent 38%),
+          linear-gradient(180deg, rgba(12, 20, 72, 0.96), rgba(8, 15, 54, 0.98));
+        box-shadow: 0 24px 54px rgba(0, 0, 0, 0.26);
+        padding: 26px 28px;
+      }
+
+      .page-badge {
+        margin: 0 0 8px;
+        color: var(--yellow);
+        font-size: 13px;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .page-title {
+        margin: 0;
+        font-size: clamp(30px, 4vw, 44px);
+        line-height: 1.1;
+      }
+
+      .page-copy {
+        margin-top: 14px;
+        color: rgba(235, 242, 255, 0.88);
+        font-size: 16px;
+        line-height: 1.75;
+      }
+
+      .page-copy p {
+        margin: 0 0 14px;
+      }
+
+      .mission-progress-card {
+        margin-top: 22px;
+        padding: 18px 20px;
+        border-radius: 22px;
+        border: 1px solid rgba(110, 191, 255, 0.28);
+        background: rgba(255, 255, 255, 0.04);
+      }
+
+      .mission-progress-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 12px;
+        flex-wrap: wrap;
+      }
+
+      .mission-progress-head strong {
+        font-size: 18px;
+      }
+
+      .mission-progress-text {
+        color: var(--muted);
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      .mission-track {
+        position: relative;
+        width: 100%;
+        height: 14px;
+        border-radius: 999px;
+        overflow: hidden;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(109, 173, 255, 0.16);
+      }
+
+      .mission-track span {
+        display: block;
+        width: 0;
+        height: 100%;
+        border-radius: 999px;
+        background: linear-gradient(90deg, #4ec3ff 0%, #557eff 58%, #8c64ff 100%);
+        box-shadow: 0 0 18px rgba(89, 141, 255, 0.24);
+        transition: width 0.35s ease;
+      }
+
+      .mission-status-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 10px;
+        margin-top: 16px;
+      }
+
+      .status-pill {
+        display: inline-flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 10px 12px;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .status-pill span:last-child {
+        color: var(--yellow);
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+
+      .mission-grid-activities {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 16px;
+        margin-top: 24px;
+      }
+
+      .mission-tile {
+        padding: 18px;
+        border-radius: 22px;
+        border: 1px solid rgba(110, 182, 255, 0.22);
+        background: linear-gradient(180deg, rgba(28, 43, 135, 0.88), rgba(11, 22, 78, 0.94));
+        box-shadow: 0 18px 28px rgba(0, 0, 0, 0.18);
+        transition: transform 0.24s ease, border-color 0.24s ease, opacity 0.24s ease;
+      }
+
+      .mission-tile.completed {
+        border-color: rgba(104, 255, 194, 0.3);
+        background: linear-gradient(180deg, rgba(20, 72, 78, 0.95), rgba(11, 37, 47, 0.96));
+      }
+
+      .mission-tile.locked {
+        opacity: 0.56;
+      }
+
+      .mission-tile:hover {
+        transform: translateY(-3px);
+      }
+
+      .mission-chip {
+        display: inline-flex;
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.08);
+        color: var(--yellow);
+        font-size: 11px;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .mission-tile h3 {
+        margin: 14px 0 8px;
+        font-size: 22px;
+      }
+
+      .mission-tile p {
+        margin: 0 0 16px;
+        color: rgba(231, 239, 255, 0.78);
+        line-height: 1.6;
+        font-size: 14px;
+      }
+
+      .mission-state {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 16px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.08);
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .mission-launch,
+      .primary-nav-btn,
+      .secondary-btn {
+        appearance: none;
+        border: 0;
+        cursor: pointer;
+        border-radius: 999px;
+        font-weight: 900;
+        font-size: 14px;
+      }
+
+      .mission-launch,
+      .primary-nav-btn {
+        padding: 12px 16px;
+        color: #0a1f5a;
+        background: linear-gradient(180deg, #7be8ff 0%, #5d9fff 44%, #5e77ff 100%);
+      }
+
+      .mission-launch:disabled {
+        cursor: not-allowed;
+        opacity: 0.58;
+      }
+
+      .primary-nav-btn:disabled,
+      .secondary-btn:disabled {
+        cursor: not-allowed;
+        opacity: 0.58;
+      }
+
+      .secondary-btn {
+        padding: 12px 16px;
+        color: #fff;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .activity-highlight,
+      .concept-grid,
+      .mathopoly-strip {
+        margin-top: 24px;
+      }
+
+      .activity-highlight {
+        padding: 18px 20px;
+        border-radius: 20px;
+        border: 1px solid rgba(122, 184, 255, 0.24);
+        background: rgba(255, 255, 255, 0.04);
+      }
+
+      .activity-highlight strong {
+        display: block;
+        margin-bottom: 10px;
+        font-size: 18px;
+      }
+
+      .bullet-list {
+        margin: 0;
+        padding-left: 20px;
+        line-height: 1.75;
+        color: rgba(235, 242, 255, 0.84);
+      }
+
+      .concept-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+        gap: 12px;
+      }
+
+      .concept-card {
+        padding: 14px 12px;
+        border-radius: 18px;
+        background: linear-gradient(180deg, rgba(58, 82, 206, 0.66), rgba(18, 31, 99, 0.82));
+        border: 1px solid rgba(114, 168, 255, 0.24);
+        text-align: center;
+        font-weight: 800;
+      }
+
+      .notes-explorer {
+        display: grid;
+        grid-template-columns: minmax(250px, 290px) minmax(0, 1fr);
+        gap: 18px;
+        margin-top: 24px;
+      }
+
+      .notes-sidebar,
+      .notes-main {
+        display: grid;
+        gap: 14px;
+        align-content: start;
+      }
+
+      .notes-sidebar-title {
+        display: block;
+        font-size: 15px;
+        font-weight: 900;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--yellow);
+      }
+
+      .note-topic-btn {
+        appearance: none;
+        border: 1px solid rgba(118, 176, 255, 0.22);
+        border-radius: 20px;
+        background: linear-gradient(180deg, rgba(28, 40, 122, 0.92), rgba(10, 20, 72, 0.96));
+        color: #fff;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px;
+        text-align: left;
+        transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+      }
+
+      .note-topic-btn:hover {
+        transform: translateY(-2px);
+        border-color: rgba(129, 198, 255, 0.38);
+        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.18);
+      }
+
+      .note-topic-btn.active {
+        border-color: rgba(130, 224, 255, 0.52);
+        background: linear-gradient(180deg, rgba(47, 88, 214, 0.96), rgba(16, 35, 108, 0.98));
+        box-shadow: 0 18px 34px rgba(38, 84, 255, 0.22);
+      }
+
+      .note-topic-badge {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        flex: 0 0 auto;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(180deg, rgba(255, 240, 177, 0.98), rgba(255, 205, 78, 0.96));
+        color: #0b1d67;
+        font-size: 15px;
+        font-weight: 900;
+        line-height: 1;
+        box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.32);
+      }
+
+      .note-topic-copy {
+        display: grid;
+        gap: 4px;
+      }
+
+      .note-topic-copy strong {
+        font-size: 17px;
+      }
+
+      .note-topic-copy small {
+        color: rgba(233, 241, 255, 0.72);
+        font-size: 12px;
+        line-height: 1.4;
+      }
+
+      .notes-overview-card,
+      .notes-stage-card,
+      .notes-info-card,
+      .note-reference-card,
+      .formula-board {
+        border-radius: 22px;
+        border: 1px solid rgba(118, 183, 255, 0.22);
+        background: rgba(255, 255, 255, 0.05);
+        box-shadow: 0 16px 30px rgba(0, 0, 0, 0.14);
+      }
+
+      .notes-overview-card {
+        padding: 18px;
+      }
+
+      .notes-overview-card strong,
+      .note-reference-card h4 {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 18px;
+      }
+
+      .notes-overview-card p,
+      .note-reference-card p {
+        margin: 0;
+        color: rgba(235, 242, 255, 0.8);
+        line-height: 1.7;
+        font-size: 14px;
+      }
+
+      .notes-stage-card {
+        padding: 18px;
+      }
+
+      .notes-stage-head {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: end;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+
+      .notes-stage-head p {
+        margin: 0 0 6px;
+        color: var(--yellow);
+        font-size: 12px;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .notes-stage-head h3 {
+        margin: 0;
+        font-size: clamp(22px, 3vw, 32px);
+      }
+
+      .note-stage {
+        position: relative;
+        min-height: 352px;
+        overflow: hidden;
+        border-radius: 22px;
+        border: 1px solid rgba(122, 196, 255, 0.24);
+        background:
+          radial-gradient(circle at 50% 25%, rgba(149, 195, 255, 0.18), transparent 38%),
+          linear-gradient(180deg, rgba(17, 35, 116, 0.95), rgba(9, 18, 68, 0.98));
+        display: grid;
+        place-items: center;
+        padding: 18px;
+      }
+
+      .note-stage svg {
+        width: min(100%, 390px);
+        height: auto;
+        overflow: visible;
+      }
+
+      .stage-disc {
+        fill: rgba(213, 226, 255, 0.1);
+      }
+
+      .circle-outline {
+        fill: rgba(255, 255, 255, 0.03);
+        stroke: rgba(209, 232, 255, 0.94);
+        stroke-width: 4;
+      }
+
+      .center-dot {
+        fill: #fff0a3;
+        stroke: #fff;
+        stroke-width: 3;
+        animation: pulseCenter 2.4s ease-in-out infinite;
+      }
+
+      .guide-line {
+        stroke-linecap: round;
+        stroke-width: 7;
+        opacity: 0.12;
+      }
+
+      .radius-line,
+      .diameter-line,
+      .chord-line,
+      .arc-line,
+      .circumference-ring {
+        stroke-dasharray: 190;
+        stroke-dashoffset: 190;
+      }
+
+      .radius-line {
+        stroke: #83dcff;
+      }
+
+      .diameter-line {
+        stroke: #ffc670;
+      }
+
+      .chord-line {
+        stroke: #8dffcb;
+      }
+
+      .arc-line {
+        fill: none;
+        stroke: #8fd8ff;
+        stroke-width: 7;
+        stroke-linecap: round;
+      }
+
+      .circumference-ring {
+        fill: none;
+        stroke: #ffef98;
+        stroke-width: 7;
+        opacity: 0;
+        stroke-dasharray: 460;
+        stroke-dashoffset: 460;
+        filter: drop-shadow(0 0 10px rgba(255, 236, 145, 0.4));
+      }
+
+      .sector-shape {
+        fill: rgba(255, 126, 145, 0.84);
+        stroke: rgba(255, 237, 244, 0.98);
+        stroke-width: 3;
+        opacity: 0;
+        transform-box: fill-box;
+        transform-origin: center;
+      }
+
+      .sector-arc {
+        fill: none;
+        stroke: #ffecb1;
+        stroke-width: 4;
+        stroke-linecap: round;
+        opacity: 0;
+      }
+
+      .segment-shape {
+        fill: rgba(154, 117, 255, 0.72);
+        stroke: rgba(241, 234, 255, 0.96);
+        stroke-width: 3;
+        opacity: 0;
+        transform-box: fill-box;
+        transform-origin: center;
+      }
+
+      .note-tag {
+        position: absolute;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 7px 12px;
+        border-radius: 999px;
+        background: rgba(10, 20, 70, 0.8);
+        border: 1px solid rgba(131, 205, 255, 0.22);
+        color: rgba(239, 244, 255, 0.62);
+        font-size: 12px;
+        font-weight: 800;
+        backdrop-filter: blur(6px);
+        opacity: 0.24;
+        transform: translateY(6px);
+        transition: opacity 0.22s ease, transform 0.22s ease, border-color 0.22s ease, color 0.22s ease;
+      }
+
+      .center-label {
+        left: calc(50% - 30px);
+        top: 152px;
+      }
+
+      .label-radius {
+        right: 18%;
+        top: 74px;
+      }
+
+      .label-diameter {
+        left: 12%;
+        bottom: 102px;
+      }
+
+      .label-sector {
+        right: 13%;
+        bottom: 110px;
+      }
+
+      .label-circumference {
+        left: 11%;
+        top: 56px;
+      }
+
+      .label-segment {
+        right: 12%;
+        top: 62px;
+      }
+
+      .label-arc {
+        left: 12%;
+        bottom: 106px;
+      }
+
+      .label-chord {
+        right: 12%;
+        bottom: 72px;
+      }
+
+      .note-stage-caption {
+        position: absolute;
+        left: 16px;
+        right: 16px;
+        bottom: 14px;
+        padding: 11px 14px;
+        border-radius: 14px;
+        background: rgba(7, 12, 42, 0.7);
+        border: 1px solid rgba(107, 176, 255, 0.2);
+        color: rgba(236, 242, 255, 0.84);
+        font-size: 13px;
+        line-height: 1.6;
+      }
+
+      .note-stage[data-note-topic="jejari"] .radius-line,
+      .note-stage[data-note-topic="diameter"] .diameter-line,
+      .note-stage[data-note-topic="perentas"] .chord-line,
+      .note-stage[data-note-topic="lengkok"] .arc-line {
+        opacity: 1;
+        animation: drawGuideLine 0.85s ease forwards;
+      }
+
+      .note-stage[data-note-topic="lilitan"] .circumference-ring {
+        opacity: 1;
+        animation: drawGuideLine 1.1s ease forwards, ringGlow 2.2s ease-in-out infinite 1.1s;
+      }
+
+      .note-stage[data-note-topic="sektor"] .sector-shape {
+        opacity: 0.92;
+        animation: sectorReveal 0.7s ease forwards;
+      }
+
+      .note-stage[data-note-topic="sektor"] .sector-arc {
+        opacity: 1;
+        animation: sectorPulse 1.5s ease-in-out infinite;
+      }
+
+      .note-stage[data-note-topic="tembereng"] .segment-shape {
+        opacity: 0.92;
+        animation: sectorReveal 0.7s ease forwards;
+      }
+
+      .note-stage[data-note-topic="tembereng"] .chord-line,
+      .note-stage[data-note-topic="tembereng"] .arc-line {
+        opacity: 1;
+        animation: drawGuideLine 0.85s ease forwards;
+      }
+
+      .note-stage[data-note-topic="jejari"] .label-radius,
+      .note-stage[data-note-topic="pusat"] .center-label,
+      .note-stage[data-note-topic="diameter"] .label-diameter,
+      .note-stage[data-note-topic="lilitan"] .label-circumference,
+      .note-stage[data-note-topic="tembereng"] .label-segment,
+      .note-stage[data-note-topic="sektor"] .label-sector,
+      .note-stage[data-note-topic="lengkok"] .label-arc,
+      .note-stage[data-note-topic="perentas"] .label-chord,
+      .note-stage[data-note-topic="jejari"] .center-label,
+      .note-stage[data-note-topic="diameter"] .center-label,
+      .note-stage[data-note-topic="sektor"] .center-label {
+        color: #fff;
+        opacity: 1;
+        transform: translateY(0);
+        border-color: rgba(160, 228, 255, 0.42);
+      }
+
+      .notes-info-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .notes-info-card {
+        padding: 18px;
+      }
+
+      .info-chip {
+        display: inline-flex;
+        margin-bottom: 10px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.08);
+        color: var(--yellow);
+        font-size: 11px;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .notes-info-card h4 {
+        margin: 0 0 10px;
+        font-size: 22px;
+      }
+
+      .notes-info-card p {
+        margin: 0;
+        color: rgba(235, 242, 255, 0.86);
+        line-height: 1.75;
+      }
+
+      .note-point-list {
+        margin: 14px 0 0;
+        padding-left: 20px;
+        color: rgba(235, 242, 255, 0.82);
+        line-height: 1.75;
+      }
+
+      .note-tip-box {
+        margin-top: 14px;
+        padding: 14px 16px;
+        border-radius: 16px;
+        background: linear-gradient(180deg, rgba(119, 222, 145, 0.24), rgba(26, 83, 40, 0.26));
+        border: 1px solid rgba(129, 231, 154, 0.26);
+        color: #ebfff2;
+        line-height: 1.7;
+        font-weight: 700;
+      }
+
+      .formula-board {
+        margin-top: 24px;
+        padding: 20px;
+        background: linear-gradient(180deg, rgba(146, 222, 255, 0.16), rgba(255, 182, 213, 0.16));
+      }
+
+      .formula-tag {
+        display: inline-flex;
+        padding: 8px 14px;
+        border-radius: 14px;
+        background: rgba(255, 181, 194, 0.94);
+        color: #571f36;
+        font-size: 14px;
+        font-weight: 900;
+      }
+
+      .formula-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        margin-top: 16px;
+      }
+
+      .formula-pill {
+        padding: 14px 16px;
+        border-radius: 18px;
+        background: rgba(255, 233, 243, 0.96);
+        border: 1px solid rgba(255, 182, 203, 0.38);
+        color: #5f2741;
+        transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+      }
+
+      .formula-pill strong {
+        display: block;
+        margin-bottom: 4px;
+        font-size: 16px;
+      }
+
+      .formula-pill small {
+        display: block;
+        color: rgba(95, 39, 65, 0.8);
+        line-height: 1.5;
+      }
+
+      .formula-pill.active {
+        transform: translateY(-2px);
+        border-color: rgba(255, 161, 190, 0.78);
+        box-shadow: 0 14px 26px rgba(221, 115, 157, 0.18);
+      }
+
+      .note-reference-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 14px;
+        margin-top: 24px;
+      }
+
+      .note-reference-card {
+        padding: 18px;
+      }
+
+      .note-reference-card.ref-jejari {
+        background: linear-gradient(180deg, rgba(253, 203, 130, 0.95), rgba(235, 146, 89, 0.94));
+        color: #3d210c;
+      }
+
+      .note-reference-card.ref-diameter {
+        background: linear-gradient(180deg, rgba(255, 190, 166, 0.96), rgba(244, 143, 117, 0.95));
+        color: #472012;
+      }
+
+      .note-reference-card.ref-sektor {
+        background: linear-gradient(180deg, rgba(222, 196, 255, 0.95), rgba(184, 156, 244, 0.94));
+        color: #271640;
+      }
+
+      .note-reference-card.ref-pusat {
+        background: linear-gradient(180deg, rgba(189, 237, 244, 0.96), rgba(143, 211, 226, 0.94));
+        color: #16303a;
+      }
+
+      .note-reference-card.ref-lilitan {
+        background: linear-gradient(180deg, rgba(194, 170, 228, 0.96), rgba(159, 126, 207, 0.94));
+        color: #25153d;
+      }
+
+      .note-reference-card.ref-tembereng {
+        background: linear-gradient(180deg, rgba(255, 177, 208, 0.96), rgba(238, 126, 173, 0.94));
+        color: #41182a;
+      }
+
+      .note-reference-card.ref-lengkok {
+        background: linear-gradient(180deg, rgba(188, 206, 255, 0.96), rgba(137, 164, 230, 0.94));
+        color: #18254a;
+      }
+
+      .note-reference-card.ref-perentas {
+        background: linear-gradient(180deg, rgba(185, 232, 192, 0.96), rgba(138, 204, 149, 0.94));
+        color: #18341c;
+      }
+
+      .note-reference-card.ref-jejari p,
+      .note-reference-card.ref-diameter p,
+      .note-reference-card.ref-sektor p {
+        color: inherit;
+      }
+
+      @keyframes drawGuideLine {
+        from {
+          stroke-dashoffset: 190;
+        }
+        to {
+          stroke-dashoffset: 0;
+        }
+      }
+
+      @keyframes sectorReveal {
+        from {
+          transform: scale(0.82);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 0.92;
+        }
+      }
+
+      @keyframes sectorPulse {
+        0%,
+        100% {
+          filter: drop-shadow(0 0 0 rgba(255, 232, 161, 0));
+        }
+        50% {
+          filter: drop-shadow(0 0 10px rgba(255, 232, 161, 0.65));
+        }
+      }
+
+      @keyframes pulseCenter {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.18);
+        }
+      }
+
+      @keyframes ringGlow {
+        0%,
+        100% {
+          filter: drop-shadow(0 0 6px rgba(255, 236, 145, 0.24));
+        }
+        50% {
+          filter: drop-shadow(0 0 16px rgba(255, 236, 145, 0.62));
+        }
+      }
+
+      .crossword-layout {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 18px;
+        margin-top: 24px;
+      }
+
+      .crossword-board-card,
+      .crossword-clue-card {
+        border-radius: 24px;
+        border: 1px solid rgba(117, 185, 255, 0.24);
+        background: rgba(255, 255, 255, 0.05);
+        box-shadow: 0 18px 32px rgba(0, 0, 0, 0.16);
+      }
+
+      .crossword-board-card {
+        padding: 18px;
+      }
+
+      .crossword-board-wrap {
+        overflow-x: auto;
+        padding-bottom: 4px;
+        display: flex;
+        justify-content: center;
+      }
+
+      .crossword-board {
+        --cell-size: 48px;
+        display: grid;
+        grid-template-columns: repeat(13, var(--cell-size));
+        grid-auto-rows: var(--cell-size);
+        gap: 5px;
+        width: max-content;
+      }
+
+      .crossword-cell {
+        position: relative;
+        width: var(--cell-size);
+        height: var(--cell-size);
+      }
+
+      .crossword-cell.block {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .crossword-cell.active .crossword-input {
+        border-color: rgba(127, 217, 255, 0.96);
+        box-shadow: 0 0 0 2px rgba(98, 188, 255, 0.24), 0 10px 18px rgba(14, 31, 89, 0.16);
+        transform: translateY(-1px);
+      }
+
+      .crossword-cell.correct .crossword-input {
+        background: linear-gradient(180deg, rgba(229, 255, 236, 0.98), rgba(197, 244, 208, 0.96));
+        color: #204022;
+      }
+
+      .crossword-cell.revealed .crossword-input {
+        background: linear-gradient(180deg, rgba(255, 248, 212, 0.98), rgba(255, 228, 150, 0.96));
+        color: #483404;
+      }
+
+      .crossword-cell.wrong .crossword-input {
+        background: linear-gradient(180deg, rgba(255, 233, 236, 0.98), rgba(255, 201, 212, 0.96));
+        color: #5a1d2d;
+      }
+
+      .crossword-input {
+        width: 100%;
+        height: 100%;
+        border-radius: 10px;
+        border: 2px solid rgba(255, 255, 255, 0.16);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(227, 235, 255, 0.92));
+        color: #17306d;
+        text-align: center;
+        font-size: 22px;
+        font-weight: 900;
+        text-transform: uppercase;
+        transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+      }
+
+      .crossword-input:focus {
+        outline: none;
+        border-color: rgba(82, 168, 255, 0.96);
+        box-shadow: 0 0 0 3px rgba(77, 147, 255, 0.2);
+      }
+
+      .crossword-input[readonly] {
+        cursor: default;
+      }
+
+      .crossword-number {
+        position: absolute;
+        top: 3px;
+        left: 6px;
+        color: #3650a5;
+        font-size: 11px;
+        font-weight: 900;
+        pointer-events: none;
+      }
+
+      .crossword-toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px;
+        margin-top: 16px;
+      }
+
+      .crossword-helper,
+      .crossword-feedback {
+        border-radius: 16px;
+        border: 1px solid rgba(117, 185, 255, 0.18);
+        background: rgba(8, 15, 52, 0.54);
+        color: rgba(236, 243, 255, 0.88);
+        line-height: 1.7;
+      }
+
+      .crossword-helper {
+        padding: 12px 14px;
+        font-size: 13px;
+      }
+
+      .crossword-feedback {
+        margin-top: 14px;
+        padding: 14px 16px;
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      .crossword-feedback.success {
+        border-color: rgba(135, 234, 168, 0.28);
+        background: rgba(20, 79, 46, 0.46);
+        color: #effff1;
+      }
+
+      .crossword-feedback.revealed {
+        border-color: rgba(255, 226, 133, 0.34);
+        background: rgba(88, 66, 10, 0.42);
+        color: #fff7d0;
+      }
+
+      .crossword-clues {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .crossword-clue-card {
+        padding: 18px;
+      }
+
+      .crossword-clue-head {
+        margin-bottom: 14px;
+      }
+
+      .crossword-clue-head h3 {
+        margin: 0;
+        font-size: 24px;
+      }
+
+      .crossword-clue-list {
+        display: grid;
+        gap: 10px;
+      }
+
+      .crossword-clue-item {
+        appearance: none;
+        border: 1px solid rgba(124, 182, 255, 0.18);
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.04);
+        color: #fff;
+        cursor: pointer;
+        display: block;
+        padding: 12px 14px;
+        text-align: left;
+        transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+      }
+
+      .crossword-clue-item:hover {
+        transform: translateY(-1px);
+        border-color: rgba(128, 204, 255, 0.34);
+      }
+
+      .crossword-clue-item.active {
+        border-color: rgba(129, 224, 255, 0.52);
+        background: linear-gradient(180deg, rgba(47, 88, 214, 0.88), rgba(18, 36, 108, 0.92));
+      }
+
+      .crossword-clue-item strong {
+        display: inline-block;
+        margin-right: 6px;
+        font-size: 14px;
+        color: var(--yellow);
+      }
+
+      .crossword-clue-item p {
+        display: inline;
+        margin: 0;
+        color: rgba(236, 243, 255, 0.82);
+        line-height: 1.6;
+        font-size: 14px;
+      }
+
+      .mock-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 14px;
+        margin-top: 22px;
+      }
+
+      .mock-card {
+        min-height: 120px;
+        padding: 16px;
+        border-radius: 18px;
+        background: linear-gradient(180deg, rgba(90, 52, 207, 0.8), rgba(42, 17, 110, 0.92));
+        border: 1px solid rgba(167, 132, 255, 0.3);
+        display: grid;
+        align-content: space-between;
+      }
+
+      .mock-card strong {
+        font-size: 16px;
+      }
+
+      .mock-card span {
+        color: rgba(240, 243, 255, 0.72);
+        font-size: 13px;
+      }
+
+      .drag-labels {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 18px;
+      }
+
+      .drag-pill {
+        padding: 10px 14px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px dashed rgba(110, 191, 255, 0.28);
+        font-weight: 800;
+      }
+
+      .mathopoly-strip {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .mathopoly-tile {
+        min-height: 78px;
+        border-radius: 18px;
+        display: grid;
+        place-items: center;
+        text-align: center;
+        padding: 10px;
+        background: linear-gradient(180deg, rgba(30, 105, 255, 0.85), rgba(16, 51, 148, 0.95));
+        border: 1px solid rgba(107, 172, 255, 0.3);
+        font-weight: 800;
+      }
+
+      .page-controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 28px;
+      }
+
+      .page-controls .right-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      @media (max-width: 980px) {
+        .page {
+          padding: 16px 16px 32px;
+        }
+
+        .topbar {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .toolbar {
+          justify-content: space-between;
+          flex-wrap: wrap;
+        }
+
+        .hero {
+          grid-template-columns: 1fr;
+          grid-template-areas:
+            "brand"
+            "form"
+            "menu"
+            "mascot"
+            "satellite";
+        }
+
+        .brand,
+        .mission-card,
+        .menu-grid,
+        .mascot-wrap,
+        .satellite {
+          justify-self: center;
+        }
+
+        .mascot-wrap {
+          margin-top: 34px;
+        }
+
+        .bubble {
+          right: auto;
+          left: 50%;
+          top: -52px;
+          max-width: 156px;
+          transform: translateX(-50%);
+        }
+
+        .notes-explorer,
+        .notes-info-grid,
+        .formula-grid,
+        .note-reference-row,
+        .crossword-layout {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 620px) {
+        .toolbar {
+          gap: 8px;
+        }
+
+        .lang-group,
+        .toggle-group {
+          width: 100%;
+          justify-content: center;
+          flex-wrap: wrap;
+        }
+
+        .topic-lines {
+          font-size: 12px;
+        }
+
+        .subtitle-pill {
+          font-size: 18px;
+        }
+
+        .menu-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .title {
+          font-size: 52px;
+        }
+
+        .brand-title-row {
+          gap: 8px;
+        }
+
+        .brand-emblem {
+          width: 62px;
+          height: 62px;
+        }
+
+        .brand-side-glyph {
+          display: none;
+        }
+
+        .note-stage {
+          min-height: 310px;
+          padding: 14px;
+        }
+
+        .crossword-board {
+          --cell-size: 38px;
+          gap: 4px;
+        }
+
+        .crossword-input {
+          font-size: 18px;
+        }
+
+        .label-radius {
+          right: 10%;
+          top: 62px;
+        }
+
+        .label-diameter {
+          left: 8%;
+          bottom: 98px;
+        }
+
+        .label-sector {
+          right: 8%;
+          bottom: 104px;
+        }
+
+        .label-circumference,
+        .label-segment {
+          right: 8%;
+          left: auto;
+          top: 60px;
+        }
+
+        .label-arc {
+          left: 8%;
+          bottom: 102px;
+        }
+
+        .label-chord {
+          right: 8%;
+          bottom: 74px;
+        }
+
+        .mission-progress-head,
+        .page-controls {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .page-controls .right-actions {
+          width: 100%;
+        }
+
+        .mathopoly-strip {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .crossword-clues {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <div class="stars"></div>
+      <div class="motion-layer" aria-hidden="true">
+        <span class="nebula nebula-a"></span>
+        <span class="nebula nebula-b"></span>
+        <span class="nebula nebula-c"></span>
+        <span class="floating-orb orb-a"></span>
+        <span class="floating-orb orb-b"></span>
+        <span class="floating-orb orb-c"></span>
+        <span class="comet comet-a"></span>
+        <span class="comet comet-b"></span>
+        <span class="pulse-ring pulse-ring-a"></span>
+        <span class="pulse-ring pulse-ring-b"></span>
+      </div>
+      <div class="orbit orbit-main"></div>
+      <div class="orbit orbit-title"></div>
+
+      <header class="topbar">
+        <div class="topic-card">
+          <svg class="topic-icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="24" cy="24" r="8" fill="currentColor" />
+            <path
+              d="M24 6v8M24 34v8M6 24h8M34 24h8M11 11l6 6M31 31l6 6M11 37l6-6M31 17l6-6"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-width="4"
+            />
+          </svg>
+          <div class="topic-lines">
+            <span id="heroKicker">Topik Bulatan</span>
+            <span id="heroTopicLine">Matematik</span>
+            <span id="heroTopicLevel">Tingkatan 2 KSSM</span>
+          </div>
+        </div>
+
+        <div class="toolbar">
+          <div class="lang-group" role="group" aria-label="Language">
+            <button class="lang-btn active" data-lang="bm" type="button">BM</button>
+            <button class="lang-btn" data-lang="en" type="button">EN</button>
+          </div>
+          <div class="toggle-group">
+            <button class="toggle-btn" id="toggleSoundButton" type="button">
+              <span class="toggle-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                  <path d="M4 9h4l5-4v14l-5-4H4V9Zm12.5 3a4.5 4.5 0 0 0-2.12-3.82v7.64A4.5 4.5 0 0 0 16.5 12Zm0-8v2a8 8 0 0 1 0 12v2a10 10 0 0 0 0-16Z" />
+                </svg>
+              </span>
+              <span class="toggle-copy">
+                <small id="soundLabel">Sound</small>
+                <strong id="soundStatus">ON</strong>
+              </span>
+            </button>
+            <button class="toggle-btn" id="toggleMusicButton" type="button">
+              <span class="toggle-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                  <path d="M17 3v12.55A4 4 0 1 1 15 12V7.3l-7 1.75V18.55A4 4 0 1 1 6 15V7.5L17 3Z" />
+                </svg>
+              </span>
+              <span class="toggle-copy">
+                <small id="musicLabel">Muzik</small>
+                <strong id="musicStatus">ON</strong>
+              </span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <section class="screen-panel active" data-screen="start">
+        <div class="hero">
+          <div class="brand">
+          <div class="brand-side-glyph" aria-hidden="true">
+            <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="60" cy="60" r="42" fill="rgba(10,23,92,0.6)" stroke="rgba(106,194,255,0.65)" stroke-width="3" />
+              <circle cx="60" cy="60" r="26" fill="none" stroke="rgba(255,214,99,0.85)" stroke-width="3" />
+              <path d="M60 18v18M60 84v18M18 60h18M84 60h18" stroke="rgba(129,208,255,0.78)" stroke-width="3" stroke-linecap="round" />
+              <path d="M36 36 84 84M84 36 36 84" stroke="rgba(102,127,255,0.42)" stroke-width="2.4" />
+              <path d="M31 78c15-32 44-46 58-48" fill="none" stroke="rgba(255,185,66,0.95)" stroke-width="4" stroke-linecap="round" />
+              <circle cx="31" cy="78" r="6" fill="#ffd454" />
+              <circle cx="89" cy="30" r="5" fill="#82cfff" />
+            </svg>
+          </div>
+
+          <svg class="brand-orbit-line" viewBox="0 0 640 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <ellipse cx="320" cy="60" rx="220" ry="34" fill="none" stroke="rgba(99,132,255,0.34)" stroke-width="3" />
+            <ellipse cx="320" cy="60" rx="250" ry="20" fill="none" stroke="rgba(112,164,255,0.14)" stroke-width="2" />
+          </svg>
+
+          <div class="brand-title-row">
+            <h1 class="title" id="heroTitle">
+              <span class="title-main">CIRCLI</span>
+              <span class="title-accent">X</span>
+            </h1>
+
+            <div class="brand-emblem" aria-hidden="true">
+              <svg viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="emblemBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#9fd7ff" />
+                    <stop offset="100%" stop-color="#3975ff" />
+                  </linearGradient>
+                  <linearGradient id="emblemGold" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#fff09e" />
+                    <stop offset="100%" stop-color="#ffbf35" />
+                  </linearGradient>
+                </defs>
+                <circle cx="90" cy="90" r="52" fill="rgba(14,28,96,0.82)" stroke="url(#emblemBlue)" stroke-width="6" />
+                <circle cx="90" cy="90" r="22" fill="none" stroke="#eff7ff" stroke-width="4" />
+                <circle cx="90" cy="90" r="36" fill="none" stroke="rgba(255,214,99,0.9)" stroke-width="4" />
+                <path d="M90 38c20 0 40 6 54 18-5 22-25 40-54 40S41 78 36 56c14-12 34-18 54-18Z" fill="none" stroke="url(#emblemGold)" stroke-width="5" />
+                <path d="M52 92c12 18 24 28 38 28s26-10 38-28" fill="none" stroke="url(#emblemBlue)" stroke-width="5" stroke-linecap="round" />
+                <path d="M42 42 66 66M138 42l-24 24" stroke="url(#emblemGold)" stroke-width="6" stroke-linecap="round" />
+                <circle cx="42" cy="42" r="8" fill="#ffcc4f" />
+                <circle cx="138" cy="42" r="8" fill="#ffcc4f" />
+                <path d="M90 126v26M76 140h28" stroke="#d8ebff" stroke-width="6" stroke-linecap="round" />
+                <circle cx="90" cy="90" r="5" fill="#fff3a2" />
+              </svg>
+            </div>
+          </div>
+
+          <div class="subtitle-pill">
+            <span aria-hidden="true">&#9733;</span>
+            <span id="heroSubtitle">Terokai Dunia Bulatan!</span>
+            <span aria-hidden="true">&#9733;</span>
+          </div>
+        </div>
+
+          <div class="mission-card">
+          <form id="startForm" novalidate>
+            <div class="field">
+              <div class="field-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                  <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-4.42 0-8 2-8 4.5V21h16v-2.5c0-2.5-3.58-4.5-8-4.5Z" />
+                </svg>
+              </div>
+              <div class="field-copy">
+                <label for="playerName" id="nameLabel">Nama</label>
+                <div class="input-shell">
+                  <input id="playerName" type="text" placeholder="Masukkan nama anda" />
+                </div>
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="field-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+                  <path d="m4 7 8 6 8-6"></path>
+                </svg>
+              </div>
+              <div class="field-copy">
+                <label for="playerEmail" id="emailLabel">E-mel</label>
+                <div class="input-shell">
+                  <input id="playerEmail" type="email" placeholder="contoh@mail.com" />
+                </div>
+              </div>
+            </div>
+
+            <div class="form-feedback" id="formFeedback"></div>
+
+            <button class="start-btn" type="submit" id="startGameButton">
+              <span class="start-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                  <path d="M14.5 3c2.5 1 4.5 3 5.5 5.5l-3 2-5-5 2.5-2.5ZM11.5 6.5l6 6-4.5 4.5-3.5-.5-.5-3.5 2.5-2.5Zm-3 7.5 2 2-4.5 4.5H4v-2l4.5-4.5Z" />
+                </svg>
+              </span>
+              <span id="startButtonText">Mula Misi</span>
+            </button>
+
+            <p class="form-note" id="formNote">Masukkan nama dan e-mel untuk memulakan misi anda.</p>
+          </form>
+        </div>
+
+          <div class="menu-grid">
+          <button class="menu-btn guide" data-panel="guide" type="button">
+            <span class="menu-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M4 5a2 2 0 0 1 2-2h12v16H8a4 4 0 0 0-4 4V5Zm14-2h2v18h-2V3Z" />
+              </svg>
+            </span>
+            <span id="menuGuideText">Arahan</span>
+          </button>
+          <button class="menu-btn leaderboard" data-panel="leaderboard" type="button">
+            <span class="menu-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 17a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm-7 4a7 7 0 0 1 14 0Zm12.5-10 1.3-2.6L21 7l-2.75-.4L17 4l-1.25 2.6L13 7l2.2 1.4Z" />
+              </svg>
+            </span>
+            <span id="menuLeaderboardText">Papan Kedudukan</span>
+          </button>
+          <button class="menu-btn about" data-panel="about" type="button">
+            <span class="menu-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm1 15h-2v-6h2Zm0-8h-2V7h2Z" />
+              </svg>
+            </span>
+            <span id="menuAboutText">Info</span>
+          </button>
+          <button class="menu-btn exit" data-panel="exit" type="button">
+            <span class="menu-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M10 17 5 12l5-5v3h7v4h-7Zm8-12H9a2 2 0 0 0-2 2v2h2V7h9v10H9v-2H7v2a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Z" />
+              </svg>
+            </span>
+            <span id="menuExitText">Keluar</span>
+          </button>
+        </div>
+
+          <div class="mascot-wrap">
+          <div class="bubble" id="heroBubbleText">Jom mula misi dan kuasai bulatan!</div>
+          <svg class="mascot-svg" viewBox="0 0 260 280" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <ellipse cx="128" cy="258" rx="46" ry="12" fill="rgba(69,108,255,0.36)" />
+            <path d="M104 221c-16 8-26 22-28 38 12-8 24-11 36-12l-8-26Zm60 0 8 26c12 1 24 4 36 12-2-16-12-30-28-38l-16 0Z" fill="#ffd449" />
+            <rect x="98" y="98" width="64" height="94" rx="30" fill="#f7f8ff" stroke="#ffcf47" stroke-width="4" />
+            <circle cx="130" cy="64" r="42" fill="#eef4ff" stroke="#ffcf47" stroke-width="4" />
+            <rect x="92" y="124" width="12" height="48" rx="6" fill="#f7f8ff" stroke="#ffcf47" stroke-width="4" />
+            <rect x="156" y="124" width="12" height="48" rx="6" fill="#f7f8ff" stroke="#ffcf47" stroke-width="4" />
+            <rect x="94" y="166" width="14" height="36" rx="7" transform="rotate(18 101 184)" fill="#f7f8ff" stroke="#ffcf47" stroke-width="4" />
+            <rect x="152" y="166" width="14" height="36" rx="7" transform="rotate(-18 159 184)" fill="#f7f8ff" stroke="#ffcf47" stroke-width="4" />
+            <rect x="112" y="188" width="14" height="42" rx="7" transform="rotate(12 119 209)" fill="#f7f8ff" stroke="#ffcf47" stroke-width="4" />
+            <rect x="136" y="188" width="14" height="42" rx="7" transform="rotate(-12 143 209)" fill="#f7f8ff" stroke="#ffcf47" stroke-width="4" />
+            <circle cx="130" cy="64" r="30" fill="#18296f" />
+            <circle cx="114" cy="58" r="6" fill="#7bf0ff" />
+            <circle cx="146" cy="58" r="6" fill="#7bf0ff" />
+            <path d="M113 77c8 8 21 8 29 0" fill="none" stroke="#7bf0ff" stroke-linecap="round" stroke-width="5" />
+            <path d="M107 78c-4 0-7 3-7 7" fill="none" stroke="#7bf0ff" stroke-linecap="round" stroke-width="4" />
+            <path d="M154 78c4 0 7 3 7 7" fill="none" stroke="#7bf0ff" stroke-linecap="round" stroke-width="4" />
+            <circle cx="130" cy="145" r="14" fill="#4066ff" stroke="#ffcf47" stroke-width="4" />
+            <circle cx="130" cy="145" r="6" fill="#f7f8ff" />
+            <circle cx="90" cy="60" r="18" fill="#ffd449" />
+            <circle cx="170" cy="60" r="18" fill="#ffd449" />
+            <rect x="80" y="50" width="12" height="26" rx="6" fill="#ffd449" />
+            <rect x="168" y="50" width="12" height="26" rx="6" fill="#ffd449" />
+            <path d="M171 168c14-2 26-10 35-23" fill="none" stroke="#ffcf47" stroke-linecap="round" stroke-width="5" />
+            <circle cx="207" cy="143" r="6" fill="#ffd449" />
+          </svg>
+          <svg class="flag-icon" viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="6" y="6" width="50" height="62" rx="8" fill="rgba(11,29,102,0.92)" stroke="#8bc1ff" stroke-width="4" />
+            <circle cx="31" cy="37" r="16" fill="none" stroke="#ffffff" stroke-width="4" />
+            <path d="M18 49 44 25" stroke="#ffffff" stroke-width="4" />
+            <rect x="58" y="0" width="6" height="80" rx="3" fill="#bfd7ff" />
+          </svg>
+        </div>
+
+          <svg class="satellite" viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <ellipse cx="98" cy="64" rx="36" ry="24" fill="#f3f5ff" />
+            <path d="M68 64c0-18 14-32 32-32 12 0 22 4 30 13-2 20-18 35-38 35-10 0-18-2-24-8 0-2 0-5 0-8Z" fill="#c7d9ff" />
+            <circle cx="90" cy="60" r="5" fill="#5b7cff" />
+            <path d="M78 100 53 142M102 98l25 44M47 144h32M111 144h24M82 99l-7 51M101 98l8 52" fill="none" stroke="#9db8ff" stroke-linecap="round" stroke-width="5" />
+            <rect x="66" y="146" width="46" height="10" rx="5" fill="#9db8ff" />
+          </svg>
+        </div>
+      </section>
+
+      <section class="screen-panel" data-screen="mission-control">
+        <div class="content-shell">
+          <div class="content-card">
+            <p class="page-badge">Page 2 • Mission Control</p>
+            <h2 class="page-title">Menu Utama (Mission Control)</h2>
+            <div class="page-copy">
+              <p>
+                Halaman ini merupakan pusat kawalan permainan yang memaparkan semua aktiviti yang terdapat dalam Kit
+                <strong>Circlix</strong>. Pengguna boleh melihat perkembangan permainan melalui <strong>progress bar</strong>
+                atau status penyelesaian setiap misi.
+              </p>
+              <p>
+                Menu utama ini mengandungi lima komponen utama, iaitu <strong>Nota Interaktif</strong>,
+                <strong>Teka Silang Kata</strong>, <strong>Kad Misteri</strong>, <strong>Seretkan Bulatan</strong> dan
+                <strong>Mathopoly</strong>. Setiap aktiviti akan dibuka secara berperingkat mengikut turutan pembelajaran
+                bagi memastikan murid menguasai konsep sebelum meneruskan ke cabaran seterusnya.
+              </p>
+            </div>
+
+            <div class="mission-progress-card">
+              <div class="mission-progress-head">
+                <strong>Perkembangan Misi</strong>
+                <span class="mission-progress-text" id="missionProgressText">0 / 5 misi selesai</span>
+              </div>
+              <div class="mission-track">
+                <span id="missionProgressBar"></span>
+              </div>
+              <div class="mission-status-list" id="missionStatusList"></div>
+            </div>
+
+            <div class="mission-grid-activities" id="missionGrid">
+              <article class="mission-tile" data-activity-index="0">
+                <span class="mission-chip">Misi 1</span>
+                <h3>Nota Interaktif</h3>
+                <p>Pelajari konsep asas bulatan melalui nota interaktif, ilustrasi dan contoh ringkas.</p>
+                <div class="mission-state"><span>Status</span><span class="mission-state-text">Sedia</span></div>
+                <button class="mission-launch" data-open-screen="notes">Buka Aktiviti</button>
+              </article>
+
+              <article class="mission-tile" data-activity-index="1">
+                <span class="mission-chip">Misi 2</span>
+                <h3>Teka Silang Kata</h3>
+                <p>Kukuhkan ingatan istilah dan konsep bulatan dengan petunjuk serta jawapan yang menyeronokkan.</p>
+                <div class="mission-state"><span>Status</span><span class="mission-state-text">Terkunci</span></div>
+                <button class="mission-launch" data-open-screen="crossword">Terkunci</button>
+              </article>
+
+              <article class="mission-tile" data-activity-index="2">
+                <span class="mission-chip">Misi 3</span>
+                <h3>Kad Misteri</h3>
+                <p>Buka kad satu demi satu dan jawab soalan aneka pilihan untuk menguji pemahaman murid.</p>
+                <div class="mission-state"><span>Status</span><span class="mission-state-text">Terkunci</span></div>
+                <button class="mission-launch" data-open-screen="mystery">Terkunci</button>
+              </article>
+
+              <article class="mission-tile" data-activity-index="3">
+                <span class="mission-chip">Misi 4</span>
+                <h3>Seretkan Bulatan</h3>
+                <p>Padankan label dengan bahagian bulatan yang betul secara visual dan interaktif.</p>
+                <div class="mission-state"><span>Status</span><span class="mission-state-text">Terkunci</span></div>
+                <button class="mission-launch" data-open-screen="dragdrop">Terkunci</button>
+              </article>
+
+              <article class="mission-tile" data-activity-index="4">
+                <span class="mission-chip">Misi 5</span>
+                <h3>Mathopoly</h3>
+                <p>Selesaikan cabaran terakhir berasaskan permainan papan untuk menggabungkan semua konsep.</p>
+                <div class="mission-state"><span>Status</span><span class="mission-state-text">Terkunci</span></div>
+                <button class="mission-launch" data-open-screen="mathopoly">Terkunci</button>
+              </article>
+            </div>
+
+            <div class="page-controls">
+              <button class="secondary-btn" data-open-screen="start">Kembali ke Halaman Mula</button>
+              <div class="right-actions">
+                <button class="primary-nav-btn" data-open-screen="notes">Mulakan Misi 1</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen-panel" data-screen="notes">
+        <div class="content-shell">
+          <div class="content-card">
+            <p class="page-badge">Page 3</p>
+            <h2 class="page-title">Nota Interaktif</h2>
+            <div class="page-copy">
+              <p>
+                Halaman ini menyediakan nota interaktif yang menerangkan bahagian bulatan seperti jejari, diameter,
+                lilitan, pusat, tembereng, sektor, lengkok dan perentas. Kandungan dipersembahkan secara ringkas dengan
+                bantuan ilustrasi, animasi dan contoh bagi memudahkan murid memahami setiap konsep sebelum menjalankan
+                aktiviti seterusnya.
+              </p>
+            </div>
+
+            <div class="notes-explorer">
+              <div class="notes-sidebar">
+                <strong class="notes-sidebar-title">Pilih konsep untuk diterokai</strong>
+
+                <button class="note-topic-btn active" type="button" data-note-topic="jejari">
+                  <span class="note-topic-badge">J</span>
+                  <span class="note-topic-copy">
+                    <strong>Jejari</strong>
+                    <small>Garis lurus dari pusat ke lilitan bulatan.</small>
+                  </span>
+                </button>
+
+                <button class="note-topic-btn" type="button" data-note-topic="diameter">
+                  <span class="note-topic-badge">D</span>
+                  <span class="note-topic-copy">
+                    <strong>Diameter</strong>
+                    <small>Garis lurus yang melalui pusat bulatan.</small>
+                  </span>
+                </button>
+
+                <button class="note-topic-btn" type="button" data-note-topic="lilitan">
+                  <span class="note-topic-badge">L</span>
+                  <span class="note-topic-copy">
+                    <strong>Lilitan</strong>
+                    <small>Garis lengkung yang membentuk keseluruhan sempadan bulatan.</small>
+                  </span>
+                </button>
+
+                <button class="note-topic-btn" type="button" data-note-topic="pusat">
+                  <span class="note-topic-badge">P</span>
+                  <span class="note-topic-copy">
+                    <strong>Pusat</strong>
+                    <small>Titik tetap yang berjarak sama dari semua titik pada lilitan.</small>
+                  </span>
+                </button>
+
+                <button class="note-topic-btn" type="button" data-note-topic="tembereng">
+                  <span class="note-topic-badge">T</span>
+                  <span class="note-topic-copy">
+                    <strong>Tembereng</strong>
+                    <small>Rantau yang dibatasi satu lengkok dan satu perentas.</small>
+                  </span>
+                </button>
+
+                <button class="note-topic-btn" type="button" data-note-topic="sektor">
+                  <span class="note-topic-badge">S</span>
+                  <span class="note-topic-copy">
+                    <strong>Sektor</strong>
+                    <small>Rantau yang dibatasi satu lengkok dan dua jejari.</small>
+                  </span>
+                </button>
+
+                <button class="note-topic-btn" type="button" data-note-topic="lengkok">
+                  <span class="note-topic-badge">Lg</span>
+                  <span class="note-topic-copy">
+                    <strong>Lengkok</strong>
+                    <small>Sebahagian daripada lilitan bulatan.</small>
+                  </span>
+                </button>
+
+                <button class="note-topic-btn" type="button" data-note-topic="perentas">
+                  <span class="note-topic-badge">Pr</span>
+                  <span class="note-topic-copy">
+                    <strong>Perentas</strong>
+                    <small>Garis lurus yang menyambung dua titik pada lilitan.</small>
+                  </span>
+                </button>
+
+                <div class="notes-overview-card">
+                  <strong>Rujukan visual pantas</strong>
+                  <p>
+                    Paparan ini diolah berdasarkan nota bahagian bulatan dan kad rumus yang awak beri, supaya murid
+                    boleh lihat maksud setiap istilah secara lebih jelas, lengkap, dan tersusun.
+                  </p>
+                </div>
+              </div>
+
+              <div class="notes-main">
+                <div class="notes-stage-card">
+                  <div class="notes-stage-head">
+                    <div>
+                      <p>Visual Interaktif</p>
+                      <h3 id="noteTopicHeading">Jejari</h3>
+                    </div>
+                    <span class="mission-chip">Klik butang di sebelah</span>
+                  </div>
+
+                  <div class="note-stage" id="noteStage" data-note-topic="jejari">
+                    <span class="note-tag center-label">Pusat</span>
+                    <span class="note-tag label-radius">Jejari</span>
+                    <span class="note-tag label-diameter">Diameter</span>
+                    <span class="note-tag label-circumference">Lilitan</span>
+                    <span class="note-tag label-segment">Tembereng</span>
+                    <span class="note-tag label-sector">Sektor</span>
+                    <span class="note-tag label-arc">Lengkok</span>
+                    <span class="note-tag label-chord">Perentas</span>
+
+                    <svg viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <circle class="stage-disc" cx="130" cy="116" r="96" />
+                      <circle class="circle-outline" cx="130" cy="116" r="72" />
+                      <circle class="circumference-ring" cx="130" cy="116" r="72" />
+                      <path class="segment-shape" d="M68 82 A72 72 0 0 1 192 82 L68 82 Z" />
+                      <path class="sector-shape" d="M130 116 L130 44 A72 72 0 0 1 192 82 Z" />
+                      <path class="sector-arc" d="M130 44 A72 72 0 0 1 192 82" />
+                      <path class="arc-line" d="M68 82 A72 72 0 0 1 192 82" />
+                      <line class="guide-line chord-line" x1="68" y1="82" x2="192" y2="82" />
+                      <line class="guide-line radius-line" x1="130" y1="116" x2="192" y2="82" />
+                      <line class="guide-line diameter-line" x1="58" y1="116" x2="202" y2="116" />
+                      <circle class="center-dot" cx="130" cy="116" r="6" />
+                    </svg>
+
+                    <div class="note-stage-caption" id="noteStageCaption">
+                      Animasi jejari menunjukkan garis lurus dari pusat bulatan ke satu titik pada lilitan.
+                    </div>
+                  </div>
+                </div>
+
+                <div class="notes-info-grid">
+                  <article class="notes-info-card">
+                    <span class="info-chip">Definisi</span>
+                    <h4 id="noteTopicTitle">Jejari</h4>
+                    <p id="noteTopicDefinition">
+                      Jejari ialah garis lurus dari pusat bulatan ke sebarang titik pada lilitan bulatan.
+                    </p>
+                    <ul class="note-point-list" id="noteTopicPoints">
+                      <li>Semua jejari dalam bulatan yang sama mempunyai panjang yang sama.</li>
+                      <li>Jejari biasanya dilabel dengan huruf <strong>j</strong>.</li>
+                      <li>Dua jejari bersama satu lengkok boleh membentuk satu sektor.</li>
+                    </ul>
+                  </article>
+
+                  <article class="notes-info-card">
+                    <span class="info-chip">Contoh &amp; Tip</span>
+                    <p id="noteTopicExample">
+                      Contohnya, jika pusat bulatan disambungkan ke tepi jam dinding, garis itu ialah jejari.
+                    </p>
+                    <div class="note-tip-box" id="noteTopicTip">
+                      Jejari sangat penting kerana digunakan dalam rumus luas bulatan dan juga membantu memahami bentuk
+                      sektor.
+                    </div>
+                  </article>
+                </div>
+              </div>
+            </div>
+
+            <div class="formula-board">
+              <div class="formula-tag">Rumus Bulatan</div>
+              <div class="formula-grid">
+                <div class="formula-pill" data-formula-key="lilitan-diameter">
+                  <strong>Lilitan bulatan = &pi;d</strong>
+                  <small>Digunakan apabila diameter diketahui.</small>
+                </div>
+                <div class="formula-pill" data-formula-key="lilitan-jejari">
+                  <strong>Lilitan bulatan = 2&pi;j</strong>
+                  <small>Digunakan apabila jejari diketahui.</small>
+                </div>
+                <div class="formula-pill" data-formula-key="luas-bulatan">
+                  <strong>Luas bulatan = &pi;j<sup>2</sup></strong>
+                  <small>Rumus asas untuk mengira ruang dalam bulatan.</small>
+                </div>
+                <div class="formula-pill" data-formula-key="panjang-lengkok">
+                  <strong>Panjang lengkok = &theta;/360 &times; 2&pi;j</strong>
+                  <small>Sesuai untuk sektor yang melibatkan sebahagian lilitan.</small>
+                </div>
+                <div class="formula-pill" data-formula-key="luas-sektor">
+                  <strong>Luas sektor = &theta;/360 &times; &pi;j<sup>2</sup></strong>
+                  <small>Digunakan untuk mengira luas kawasan sektor.</small>
+                </div>
+              </div>
+            </div>
+
+            <div class="note-reference-row">
+              <article class="note-reference-card ref-jejari">
+                <h4>Jejari</h4>
+                <p>Garis lurus dari pusat bulatan ke sebarang titik pada lilitan bulatan.</p>
+              </article>
+              <article class="note-reference-card ref-diameter">
+                <h4>Diameter</h4>
+                <p>Garis lurus yang menyentuh lilitan dan melalui pusat bulatan.</p>
+              </article>
+              <article class="note-reference-card ref-lilitan">
+                <h4>Lilitan</h4>
+                <p>Garis lengkung yang membentuk keseluruhan sempadan bulatan.</p>
+              </article>
+              <article class="note-reference-card ref-pusat">
+                <h4>Pusat</h4>
+                <p>Titik tetap yang berjarak sama dari semua titik pada lilitan bulatan.</p>
+              </article>
+              <article class="note-reference-card ref-tembereng">
+                <h4>Tembereng</h4>
+                <p>Rantau yang dibatasi oleh satu lengkok bulatan dan satu perentas.</p>
+              </article>
+              <article class="note-reference-card ref-sektor">
+                <h4>Sektor</h4>
+                <p>Rantau yang dibatasi oleh satu lengkok bulatan dan dua jejari.</p>
+              </article>
+              <article class="note-reference-card ref-lengkok">
+                <h4>Lengkok</h4>
+                <p>Sebahagian daripada lilitan yang menghubungkan dua titik pada bulatan.</p>
+              </article>
+              <article class="note-reference-card ref-perentas">
+                <h4>Perentas</h4>
+                <p>Garis lurus yang menyambung dua titik pada lilitan tanpa semestinya melalui pusat.</p>
+              </article>
+            </div>
+
+            <div class="activity-highlight">
+              <strong>Fokus Pembelajaran</strong>
+              <ul class="bullet-list">
+                <li>Memahami definisi setiap bahagian bulatan secara visual.</li>
+                <li>Menghubungkan istilah dengan gambar rajah dan contoh harian.</li>
+                <li>Membina asas kukuh sebelum bergerak ke aktiviti seterusnya.</li>
+              </ul>
+            </div>
+
+            <div class="page-controls">
+              <button class="secondary-btn" data-open-screen="mission-control">Kembali ke Mission Control</button>
+              <div class="right-actions">
+                <button class="primary-nav-btn" data-complete-screen="notes">Tandakan Selesai &amp; Buka Teka Silang Kata</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen-panel" data-screen="crossword">
+        <div class="content-shell">
+          <div class="content-card">
+            <p class="page-badge">Page 4</p>
+            <h2 class="page-title">Teka Silang Kata</h2>
+            <div class="page-copy">
+              <p>
+                Halaman ini mengandungi aktiviti Teka Silang Kata yang bertujuan mengukuhkan kefahaman murid terhadap
+                istilah dan konsep asas bulatan. Murid dikehendaki menyelesaikan teka silang kata berdasarkan petunjuk
+                yang diberikan.
+              </p>
+              <p>
+                Selain itu, butang <strong>Jawapan</strong> disediakan sebagai bantuan sekiranya murid menghadapi
+                kesukaran, manakala butang <strong>Seterusnya</strong> membolehkan murid meneruskan ke aktiviti berikut
+                selepas menyelesaikan cabaran. Aktiviti ini membantu meningkatkan penguasaan istilah Matematik,
+                merangsang pemikiran kritis serta menjadikan proses pembelajaran lebih interaktif dan menyeronokkan.
+              </p>
+            </div>
+
+            <div class="crossword-layout">
+              <div class="crossword-board-card">
+                <div class="crossword-board-wrap">
+                  <div class="crossword-board" id="crosswordBoard" aria-label="Papan teka silang kata"></div>
+                </div>
+
+                <div class="crossword-toolbar">
+                  <button class="secondary-btn" type="button" id="crosswordHintButton">Petunjuk</button>
+                  <button class="secondary-btn" type="button" id="crosswordRevealButton">Jawapan</button>
+                  <div class="crossword-helper">
+                    Klik mana-mana soalan di bahagian bawah untuk fokus pada jawapan tertentu. Gunakan
+                    <strong>Petunjuk</strong> untuk membuka satu huruf bantuan atau <strong>Jawapan</strong> jika
+                    murid benar-benar memerlukan panduan penuh.
+                  </div>
+                </div>
+
+                <div class="crossword-feedback" id="crosswordFeedback">
+                  Isi semua petak silang kata berdasarkan petunjuk yang diberikan.
+                </div>
+              </div>
+
+              <div class="crossword-clues">
+                <div class="crossword-clue-card">
+                  <div class="crossword-clue-head">
+                    <h3>Melintang</h3>
+                  </div>
+                  <div class="crossword-clue-list" id="crosswordAcrossList"></div>
+                </div>
+
+                <div class="crossword-clue-card">
+                  <div class="crossword-clue-head">
+                    <h3>Menegak</h3>
+                  </div>
+                  <div class="crossword-clue-list" id="crosswordDownList"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="page-controls">
+              <button class="secondary-btn" data-open-screen="mission-control">Kembali ke Mission Control</button>
+              <div class="right-actions">
+                <button class="primary-nav-btn" data-complete-screen="crossword" id="crosswordNextButton" disabled>Seterusnya</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen-panel" data-screen="mystery">
+        <div class="content-shell">
+          <div class="content-card">
+            <p class="page-badge">Page 5</p>
+            <h2 class="page-title">Kad Misteri</h2>
+            <div class="page-copy">
+              <p>
+                Halaman ini memaparkan beberapa kad misteri yang mengandungi soalan berkaitan topik bulatan. Setiap kad
+                akan dibuka apabila dipilih oleh murid dan memaparkan soalan berbentuk aneka pilihan. Murid perlu
+                memilih jawapan yang betul sebelum meneruskan ke kad seterusnya. Aktiviti ini bertujuan menguji
+                kefahaman konsep serta memberi maklum balas secara langsung kepada murid.
+              </p>
+            </div>
+
+            <div class="mock-cards">
+              <div class="mock-card"><strong>Kad 01</strong><span>Soalan konsep asas bulatan</span></div>
+              <div class="mock-card"><strong>Kad 02</strong><span>Soalan istilah dan bahagian bulatan</span></div>
+              <div class="mock-card"><strong>Kad 03</strong><span>Soalan pengukuhan aneka pilihan</span></div>
+            </div>
+
+            <div class="page-controls">
+              <button class="secondary-btn" data-open-screen="mission-control">Kembali ke Mission Control</button>
+              <div class="right-actions">
+                <button class="primary-nav-btn" data-complete-screen="mystery">Tandakan Selesai &amp; Buka Seretkan Bulatan</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen-panel" data-screen="dragdrop">
+        <div class="content-shell">
+          <div class="content-card">
+            <p class="page-badge">Page 6</p>
+            <h2 class="page-title">Seretkan Bulatan</h2>
+            <div class="page-copy">
+              <p>
+                Halaman ini mengandungi aktiviti seret dan lepas (drag and drop) yang memerlukan murid memadankan label
+                dengan bahagian bulatan yang betul. Aktiviti ini membantu murid mengenal pasti serta membezakan setiap
+                bahagian bulatan melalui pembelajaran secara visual dan interaktif, sekali gus meningkatkan penguasaan
+                konsep asas bulatan.
+              </p>
+            </div>
+
+            <div class="drag-labels">
+              <span class="drag-pill">Jejari</span>
+              <span class="drag-pill">Diameter</span>
+              <span class="drag-pill">Lengkok</span>
+              <span class="drag-pill">Sektor</span>
+              <span class="drag-pill">Segmen</span>
+              <span class="drag-pill">Tangen</span>
+            </div>
+
+            <div class="activity-highlight">
+              <strong>Hasil Pembelajaran</strong>
+              <ul class="bullet-list">
+                <li>Murid memadankan label dengan struktur bulatan yang tepat.</li>
+                <li>Pembelajaran lebih visual, aktif dan mudah diingati.</li>
+                <li>Murid lebih yakin sebelum ke aktiviti kemuncak.</li>
+              </ul>
+            </div>
+
+            <div class="page-controls">
+              <button class="secondary-btn" data-open-screen="mission-control">Kembali ke Mission Control</button>
+              <div class="right-actions">
+                <button class="primary-nav-btn" data-complete-screen="dragdrop">Tandakan Selesai &amp; Buka Mathopoly</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen-panel" data-screen="mathopoly">
+        <div class="content-shell">
+          <div class="content-card">
+            <p class="page-badge">Page 7</p>
+            <h2 class="page-title">Mathopoly</h2>
+            <div class="page-copy">
+              <p>
+                Halaman ini merupakan aktiviti kemuncak dalam Kit <strong>Circlix</strong> yang menggabungkan semua
+                konsep yang telah dipelajari. Murid akan bermain permainan <strong>Mathopoly</strong> dengan
+                menggerakkan bidak mengikut nombor yang diperoleh daripada dadu dan menyelesaikan cabaran atau soalan
+                pada setiap petak.
+              </p>
+              <p>
+                Aktiviti ini menggalakkan pembelajaran berasaskan permainan (Game-Based Learning) di samping
+                mengukuhkan kefahaman murid terhadap topik bulatan dalam suasana yang menyeronokkan dan mencabar.
+              </p>
+            </div>
+
+            <div class="mathopoly-strip">
+              <div class="mathopoly-tile">Mula</div>
+              <div class="mathopoly-tile">Dadu</div>
+              <div class="mathopoly-tile">Cabaran</div>
+              <div class="mathopoly-tile">Soalan</div>
+              <div class="mathopoly-tile">Menang</div>
+            </div>
+
+            <div class="page-controls">
+              <button class="secondary-btn" data-open-screen="mission-control">Kembali ke Mission Control</button>
+              <div class="right-actions">
+                <button class="primary-nav-btn" data-complete-screen="mathopoly">Tandakan Selesai &amp; Tamatkan Kit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="modal" id="quickModal" hidden>
+        <div class="modal-backdrop" id="quickModalBackdrop"></div>
+        <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+          <button class="modal-close" id="closeQuickModal" type="button" aria-label="Close">&times;</button>
+          <p class="modal-kicker" id="modalKicker">Arahan</p>
+          <h2 class="modal-title" id="modalTitle">Cara Bermain Circlix</h2>
+          <div class="modal-content" id="modalContent"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const localeText = {
+        bm: {
+          kicker: "Topik Bulatan",
+          topicLine: "Matematik",
+          topicLevel: "Tingkatan 2 KSSM",
+          subtitle: "Terokai Dunia Bulatan!",
+          soundLabel: "Sound",
+          musicLabel: "Muzik",
+          bubbleText: "Jom mula misi dan kuasai bulatan!",
+          nameLabel: "Nama",
+          emailLabel: "E-mel",
+          namePlaceholder: "Masukkan nama anda",
+          emailPlaceholder: "contoh@mail.com",
+          startButton: "Mula Misi",
+          formNote: "Masukkan nama dan e-mel untuk memulakan misi anda.",
+          menuGuide: "Arahan",
+          menuLeaderboard: "Papan Kedudukan",
+          menuAbout: "Info",
+          menuExit: "Keluar",
+          guideTitle: "Cara Bermain Circlix",
+          guideIntro: "Ikuti langkah ringkas ini untuk memulakan misi anda:",
+          guideSteps: [
+            "Masukkan nama dan e-mel pada panel utama.",
+            "Tekan butang Mula Misi untuk ke langkah seterusnya.",
+            "Gunakan butang menu untuk lihat arahan, info, dan papan kedudukan.",
+            "Tukar BM atau EN pada bahagian atas bila perlu."
+          ],
+          leaderboardTitle: "Papan Kedudukan Misi",
+          leaderboardNote: "Susunan ini hanya contoh template untuk paparan permulaan.",
+          aboutTitle: "Info Circlix",
+          aboutText: [
+            "Circlix ialah template muka depan bertema angkasa untuk topik bulatan.",
+            "Reka bentuk ini fokus pada susun atur kemas, visual jelas, dan ruang input yang mudah digunakan."
+          ],
+          exitTitle: "Keluar Dari Panel Mula",
+          exitText: "Jika anda mahu mula semula, kosongkan borang dan tetapkan semula paparan ini.",
+          exitAction: "Kosongkan Borang",
+          welcome: "Selamat datang, {name}! Template ini sedia untuk disambung ke game sebenar.",
+          missingName: "Sila masukkan nama.",
+          invalidEmail: "Sila masukkan e-mel yang sah."
+        },
+        en: {
+          kicker: "Circle Topic",
+          topicLine: "Mathematics",
+          topicLevel: "Form 2 KSSM",
+          subtitle: "Explore the World of Circles!",
+          soundLabel: "Sound",
+          musicLabel: "Music",
+          bubbleText: "Let's begin the mission and master circles!",
+          nameLabel: "Name",
+          emailLabel: "Email",
+          namePlaceholder: "Enter your name",
+          emailPlaceholder: "example@mail.com",
+          startButton: "Start Mission",
+          formNote: "Enter your name and email to begin the mission.",
+          menuGuide: "Guide",
+          menuLeaderboard: "Leaderboard",
+          menuAbout: "Info",
+          menuExit: "Exit",
+          guideTitle: "How To Use Circlix",
+          guideIntro: "Follow these quick steps to begin your mission:",
+          guideSteps: [
+            "Enter your name and email in the main panel.",
+            "Press Start Mission to continue to the next step.",
+            "Use the menu buttons to view the guide, info, and leaderboard.",
+            "Switch between BM and EN using the top controls."
+          ],
+          leaderboardTitle: "Mission Leaderboard",
+          leaderboardNote: "This ranking is sample content for the front-page template.",
+          aboutTitle: "Circlix Info",
+          aboutText: [
+            "Circlix is a space-themed landing template for the circle topic.",
+            "This design focuses on a clean layout, clear visuals, and easy-to-use input space."
+          ],
+          exitTitle: "Exit Start Panel",
+          exitText: "If you want to start over, clear the form and reset this view.",
+          exitAction: "Clear Form",
+          welcome: "Welcome, {name}! This template is ready to connect to the real game flow.",
+          missingName: "Please enter your name.",
+          invalidEmail: "Please enter a valid email."
+        }
+      };
+
+      const state = {
+        language: "bm",
+        soundOn: true,
+        musicOn: true,
+        currentScreen: "start",
+        completedActivities: [],
+        currentNoteTopic: "jejari",
+        crosswordValues: {},
+        crosswordSolved: false,
+        crosswordRevealed: false,
+        activeCrosswordEntryId: "across-1"
+      };
+
+      const audioEngine = {
+        context: null,
+        masterGain: null,
+        musicGain: null,
+        soundGain: null,
+        loopTimer: null,
+        nextNoteTime: 0,
+        step: 0
+      };
+
+      const nameInput = document.getElementById("playerName");
+      const emailInput = document.getElementById("playerEmail");
+      const formFeedback = document.getElementById("formFeedback");
+      const formNote = document.getElementById("formNote");
+      const quickModal = document.getElementById("quickModal");
+      const modalKicker = document.getElementById("modalKicker");
+      const modalTitle = document.getElementById("modalTitle");
+      const modalContent = document.getElementById("modalContent");
+      const screenPanels = Array.from(document.querySelectorAll(".screen-panel"));
+      const missionGrid = document.getElementById("missionGrid");
+      const missionProgressText = document.getElementById("missionProgressText");
+      const missionProgressBar = document.getElementById("missionProgressBar");
+      const missionStatusList = document.getElementById("missionStatusList");
+      const missionPrimaryButton = document.querySelector('[data-screen="mission-control"] .primary-nav-btn');
+      const activityOrder = ["notes", "crossword", "mystery", "dragdrop", "mathopoly"];
+      const noteTopicButtons = Array.from(document.querySelectorAll(".note-topic-btn"));
+      const noteStage = document.getElementById("noteStage");
+      const noteTopicHeading = document.getElementById("noteTopicHeading");
+      const noteTopicTitle = document.getElementById("noteTopicTitle");
+      const noteTopicDefinition = document.getElementById("noteTopicDefinition");
+      const noteTopicPoints = document.getElementById("noteTopicPoints");
+      const noteTopicExample = document.getElementById("noteTopicExample");
+      const noteTopicTip = document.getElementById("noteTopicTip");
+      const noteStageCaption = document.getElementById("noteStageCaption");
+      const formulaPills = Array.from(document.querySelectorAll(".formula-pill"));
+      const crosswordBoard = document.getElementById("crosswordBoard");
+      const crosswordAcrossList = document.getElementById("crosswordAcrossList");
+      const crosswordDownList = document.getElementById("crosswordDownList");
+      const crosswordFeedback = document.getElementById("crosswordFeedback");
+      const crosswordHintButton = document.getElementById("crosswordHintButton");
+      const crosswordRevealButton = document.getElementById("crosswordRevealButton");
+      const crosswordNextButton = document.getElementById("crosswordNextButton");
+      const activityMeta = {
+        notes: { bm: "Nota Interaktif", en: "Interactive Notes" },
+        crossword: { bm: "Teka Silang Kata", en: "Crossword" },
+        mystery: { bm: "Kad Misteri", en: "Mystery Cards" },
+        dragdrop: { bm: "Seretkan Bulatan", en: "Drag The Circle" },
+        mathopoly: { bm: "Mathopoly", en: "Mathopoly" }
+      };
+      const noteTopics = {
+        jejari: {
+          title: "Jejari",
+          definition: "Jejari ialah garis lurus dari pusat bulatan ke sebarang titik pada lilitan bulatan.",
+          example: "Contohnya, jika pusat bulatan disambungkan ke tepi jam dinding atau roda basikal, garis itu ialah jejari.",
+          tip: "Jejari sangat penting kerana digunakan dalam rumus luas bulatan dan juga membantu memahami bentuk sektor.",
+          caption: "Animasi jejari menunjukkan garis lurus dari pusat bulatan ke satu titik pada lilitan.",
+          points: [
+            "Semua jejari dalam bulatan yang sama mempunyai panjang yang sama.",
+            "Jejari biasanya dilabel dengan huruf j.",
+            "Dua jejari bersama satu lengkok boleh membentuk satu sektor."
+          ],
+          formulas: ["lilitan-jejari", "luas-bulatan"]
+        },
+        diameter: {
+          title: "Diameter",
+          definition: "Diameter ialah garis lurus yang menyentuh lilitan bulatan dan melalui pusat bulatan.",
+          example: "Contoh paling mudah ialah satu garisan penuh yang membahagi bulatan kepada dua bahagian yang sama besar.",
+          tip: "Tip penting: diameter ialah perentas yang paling panjang bagi sesuatu bulatan dan nilainya bersamaan dua kali jejari.",
+          caption: "Animasi diameter menunjukkan satu garis lurus merentasi pusat bulatan dari satu sisi ke sisi yang bertentangan.",
+          points: [
+            "Diameter = 2 × jejari.",
+            "Diameter melalui pusat bulatan.",
+            "Rumus lilitan boleh ditulis sebagai πd apabila diameter diketahui."
+          ],
+          formulas: ["lilitan-diameter", "lilitan-jejari"]
+        },
+        sektor: {
+          title: "Sektor",
+          definition: "Sektor ialah rantau yang dibatasi oleh satu lengkok bulatan dan dua jejari.",
+          example: "Bayangkan sepotong pizza — kawasan yang dibatasi oleh dua sisi lurus dan satu lengkungan itulah sektor.",
+          tip: "Untuk sektor, murid boleh rujuk rumus panjang lengkok dan luas sektor kerana kedua-duanya bergantung pada sudut pusat, θ.",
+          caption: "Ilustrasi sektor memaparkan kawasan berwarna yang dibatasi oleh dua jejari dan satu lengkok.",
+          points: [
+            "Sektor minor lebih kecil daripada separuh bulatan.",
+            "Sektor major lebih besar daripada separuh bulatan.",
+            "Luas sektor dan panjang lengkok bergantung pada sudut pusat."
+          ],
+          formulas: ["panjang-lengkok", "luas-sektor", "luas-bulatan"]
+        }
+      };
+
+      Object.assign(noteTopics, {
+        jejari: {
+          title: "Jejari",
+          definition: "Jejari ialah garis lurus dari pusat bulatan ke sebarang titik pada lilitan bulatan.",
+          example: "Contohnya, jika pusat bulatan disambungkan ke tepi jam dinding atau roda basikal, garis itu ialah jejari.",
+          tip: "Jejari penting kerana digunakan dalam rumus lilitan dan luas bulatan serta membantu memahami pembentukan sektor.",
+          caption: "Animasi jejari menunjukkan garis lurus dari pusat bulatan ke satu titik pada lilitan.",
+          points: [
+            "Semua jejari dalam bulatan yang sama mempunyai panjang yang sama.",
+            "Jejari biasanya dilabel dengan huruf j.",
+            "Dua jejari bersama satu lengkok boleh membentuk satu sektor."
+          ],
+          formulas: ["lilitan-jejari", "luas-bulatan"]
+        },
+        diameter: {
+          title: "Diameter",
+          definition: "Diameter ialah garis lurus yang menyentuh lilitan bulatan dan melalui pusat bulatan.",
+          example: "Contoh mudah ialah satu garis penuh yang membahagi bulatan kepada dua bahagian yang sama besar.",
+          tip: "Diameter ialah perentas yang paling panjang dalam bulatan dan nilainya bersamaan dua kali jejari.",
+          caption: "Animasi diameter menunjukkan satu garis lurus merentasi pusat bulatan dari satu sisi ke sisi bertentangan.",
+          points: [
+            "Diameter bersamaan dua kali jejari.",
+            "Diameter sentiasa melalui pusat bulatan.",
+            "Rumus lilitan boleh ditulis menggunakan diameter."
+          ],
+          formulas: ["lilitan-diameter", "lilitan-jejari"]
+        },
+        lilitan: {
+          title: "Lilitan",
+          definition: "Lilitan ialah garis lengkung yang membentuk keseluruhan sempadan sesuatu bulatan.",
+          example: "Bahagian luar rim basikal atau pinggir pinggan bulat merupakan contoh lilitan.",
+          tip: "Lilitan diukur menggunakan rumus pi darab diameter atau dua pi darab jejari.",
+          caption: "Animasi lilitan menonjolkan sempadan penuh bulatan sebagai satu garis lengkung tertutup.",
+          points: [
+            "Lilitan ialah perimeter bagi bulatan.",
+            "Semua titik pada lilitan berada pada jarak yang sama dari pusat.",
+            "Lilitan menjadi asas kepada konsep lengkok."
+          ],
+          formulas: ["lilitan-diameter", "lilitan-jejari"]
+        },
+        pusat: {
+          title: "Pusat",
+          definition: "Pusat ialah titik tetap dalam bulatan yang berjarak sama dari semua titik pada lilitan.",
+          example: "Pada roda basikal, pusat ialah titik di tengah tempat jejari roda bersambung.",
+          tip: "Cari pusat dahulu untuk memudahkan murid mengenal pasti jejari, diameter, sektor dan unsur lain.",
+          caption: "Titik pusat ditunjukkan di tengah bulatan sebagai rujukan utama untuk semua ukuran.",
+          points: [
+            "Pusat biasanya ditanda dengan satu titik.",
+            "Jejari diukur bermula dari pusat.",
+            "Diameter dan sektor juga bergantung pada kedudukan pusat."
+          ],
+          formulas: []
+        },
+        tembereng: {
+          title: "Tembereng",
+          definition: "Tembereng ialah rantau dalam bulatan yang dibatasi oleh satu lengkok dan satu perentas.",
+          example: "Bayangkan satu bahagian nipis pada atas pizza yang dibentuk oleh satu garisan lurus dan satu lengkungan.",
+          tip: "Bezakan tembereng dengan sektor: tembereng menggunakan perentas, manakala sektor menggunakan dua jejari.",
+          caption: "Tembereng dipaparkan sebagai kawasan berwarna yang dibatasi oleh perentas dan satu lengkok.",
+          points: [
+            "Tembereng boleh jadi minor atau major.",
+            "Sempadan tembereng terdiri daripada satu perentas dan satu lengkok.",
+            "Bentuk ini membantu murid membezakan rantau dalam bulatan."
+          ],
+          formulas: ["panjang-lengkok"]
+        },
+        sektor: {
+          title: "Sektor",
+          definition: "Sektor ialah rantau yang dibatasi oleh satu lengkok bulatan dan dua jejari.",
+          example: "Bayangkan sepotong pizza; kawasan yang dibatasi oleh dua sisi lurus dan satu lengkungan itulah sektor.",
+          tip: "Untuk sektor, murid boleh rujuk rumus panjang lengkok dan luas sektor kerana kedua-duanya bergantung pada sudut pusat theta.",
+          caption: "Ilustrasi sektor memaparkan kawasan berwarna yang dibatasi oleh dua jejari dan satu lengkok.",
+          points: [
+            "Sektor minor lebih kecil daripada separuh bulatan.",
+            "Sektor major lebih besar daripada separuh bulatan.",
+            "Luas sektor dan panjang lengkok bergantung pada sudut pusat."
+          ],
+          formulas: ["panjang-lengkok", "luas-sektor", "luas-bulatan"]
+        },
+        lengkok: {
+          title: "Lengkok",
+          definition: "Lengkok ialah sebahagian daripada lilitan bulatan yang menghubungkan dua titik pada bulatan.",
+          example: "Jika hanya sebahagian pinggir bulatan diambil, bahagian itu ialah lengkok.",
+          tip: "Lengkok boleh menjadi minor atau major dan sering digunakan apabila mengira panjang bahagian tertentu pada lilitan.",
+          caption: "Animasi lengkok menonjolkan hanya sebahagian lilitan bulatan antara dua titik.",
+          points: [
+            "Lengkok ialah sebahagian, bukan keseluruhan lilitan.",
+            "Dua titik pada bulatan menentukan satu lengkok minor dan satu lengkok major.",
+            "Panjang lengkok bergantung pada sudut pusat."
+          ],
+          formulas: ["panjang-lengkok"]
+        },
+        perentas: {
+          title: "Perentas",
+          definition: "Perentas ialah garis lurus yang menyambung dua titik pada lilitan bulatan.",
+          example: "Satu garis lurus yang melintasi bahagian atas bulatan tetapi tidak melalui pusat ialah perentas.",
+          tip: "Setiap diameter ialah perentas, tetapi bukan semua perentas ialah diameter.",
+          caption: "Perentas dipaparkan sebagai satu garis lurus yang menghubungkan dua titik pada lilitan tanpa melalui pusat.",
+          points: [
+            "Perentas boleh berada di mana-mana bahagian dalam bulatan.",
+            "Perentas tidak semestinya melalui pusat.",
+            "Diameter ialah contoh khas perentas yang melalui pusat."
+          ],
+          formulas: []
+        }
+      });
+
+      const crosswordEntries = [
+        {
+          id: "across-1",
+          num: 1,
+          direction: "across",
+          answer: "LUAS",
+          clue: "Kawasan di dalam bulatan.",
+          row: 1,
+          col: 6
+        },
+        {
+          id: "across-5",
+          num: 5,
+          direction: "across",
+          answer: "LILITAN",
+          clue: "Perimeter bulatan.",
+          row: 11,
+          col: 0
+        },
+        {
+          id: "across-7",
+          num: 7,
+          direction: "across",
+          answer: "TETAP",
+          clue: "Titik ____ di mana semua titik pada lilitan adalah sama jarak daripadanya.",
+          row: 7,
+          col: 6
+        },
+        {
+          id: "across-8",
+          num: 8,
+          direction: "across",
+          answer: "LENGKOK",
+          clue: "Bahagian lilitan.",
+          row: 8,
+          col: 5
+        },
+        {
+          id: "across-11",
+          num: 11,
+          direction: "across",
+          answer: "PERENTAS",
+          clue: "Garis lurus yang menghubungkan mana-mana dua titik pada lilitan.",
+          row: 4,
+          col: 0
+        },
+        {
+          id: "across-12",
+          num: 12,
+          direction: "across",
+          answer: "RADIAN",
+          clue: "Sudut boleh diukur menggunakan ________.",
+          row: 9,
+          col: 6
+        },
+        {
+          id: "across-13",
+          num: 13,
+          direction: "across",
+          answer: "SEGMEN",
+          clue: "Kawasan yang dikelilingi oleh perentas dan lengkok.",
+          row: 4,
+          col: 7
+        },
+        {
+          id: "down-2",
+          num: 2,
+          direction: "down",
+          answer: "SEKTOR",
+          clue: "Kawasan yang dibatasi oleh dua jejari dan satu lengkok.",
+          row: 8,
+          col: 4
+        },
+        {
+          id: "down-3",
+          num: 3,
+          direction: "down",
+          answer: "BULATAN",
+          clue: "Lokus laluan lengkung bagi titik yang sama jarak daripada pusat.",
+          row: 0,
+          col: 5
+        },
+        {
+          id: "down-4",
+          num: 4,
+          direction: "down",
+          answer: "PI",
+          clue: "3.14159265359.",
+          row: 10,
+          col: 3
+        },
+        {
+          id: "down-6",
+          num: 6,
+          direction: "down",
+          answer: "LENGKOKMINOR",
+          clue: "Lengkok kurang daripada 180°.",
+          row: 3,
+          col: 1
+        },
+        {
+          id: "down-9",
+          num: 9,
+          direction: "down",
+          answer: "DIAMETER",
+          clue: "Perentas terpanjang dalam bulatan.",
+          row: 2,
+          col: 6
+        },
+        {
+          id: "down-10",
+          num: 10,
+          direction: "down",
+          answer: "TANGEN",
+          clue: "Garis yang bersilang dengan bulatan tepat pada satu titik.",
+          row: 0,
+          col: 8
+        },
+        {
+          id: "down-11",
+          num: 11,
+          direction: "down",
+          answer: "PUSAT",
+          clue: "Semua titik pada bulatan adalah sama jarak dari titik ini.",
+          row: 2,
+          col: 7
+        }
+      ];
+
+      const crosswordMeta = (() => {
+        const cells = new Map();
+        let maxRow = 0;
+        let maxCol = 0;
+
+        crosswordEntries.forEach((entry) => {
+          entry.answer = entry.answer.toUpperCase();
+          entry.cells = [];
+
+          for (let index = 0; index < entry.answer.length; index += 1) {
+            const row = entry.row + (entry.direction === "down" ? index : 0);
+            const col = entry.col + (entry.direction === "across" ? index : 0);
+            const mapKey = `${row},${col}`;
+            const solution = entry.answer[index];
+            const existing = cells.get(mapKey);
+
+            if (existing && existing.solution !== solution) {
+              throw new Error(`Crossword conflict at ${mapKey}`);
+            }
+
+            const cell = existing || {
+              key: mapKey,
+              row,
+              col,
+              solution,
+              entryIds: [],
+              number: null
+            };
+
+            if (index === 0 && cell.number === null) {
+              cell.number = entry.num;
+            }
+
+            if (!cell.entryIds.includes(entry.id)) {
+              cell.entryIds.push(entry.id);
+            }
+
+            cells.set(mapKey, cell);
+            entry.cells.push(mapKey);
+            maxRow = Math.max(maxRow, row);
+            maxCol = Math.max(maxCol, col);
+          }
+        });
+
+        return {
+          cells,
+          rows: maxRow + 1,
+          cols: maxCol + 1,
+          totalActiveCells: cells.size
+        };
+      })();
+
+      function ensureAudioContext() {
+        if (audioEngine.context) {
+          return audioEngine.context;
+        }
+
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextClass) {
+          return null;
+        }
+
+        const context = new AudioContextClass();
+        const masterGain = context.createGain();
+        const musicGain = context.createGain();
+        const soundGain = context.createGain();
+
+        masterGain.gain.value = 0.9;
+        musicGain.gain.value = 0.0001;
+        soundGain.gain.value = 0.0001;
+
+        musicGain.connect(masterGain);
+        soundGain.connect(masterGain);
+        masterGain.connect(context.destination);
+
+        audioEngine.context = context;
+        audioEngine.masterGain = masterGain;
+        audioEngine.musicGain = musicGain;
+        audioEngine.soundGain = soundGain;
+        return context;
+      }
+
+      async function unlockAudio() {
+        const context = ensureAudioContext();
+        if (!context) return;
+
+        if (context.state === "suspended") {
+          try {
+            await context.resume();
+          } catch {
+            return;
+          }
+        }
+
+        updateAudioState();
+        if (state.musicOn) {
+          startMusicLoop();
+        }
+      }
+
+      function playTone(frequency, when, duration, options = {}) {
+        const context = ensureAudioContext();
+        if (!context) return;
+
+        const oscillator = context.createOscillator();
+        const gainNode = context.createGain();
+        const targetGain = options.channel === "sound" ? audioEngine.soundGain : audioEngine.musicGain;
+        const type = options.type || "sine";
+        const volume = options.volume || 0.05;
+
+        oscillator.type = type;
+        oscillator.frequency.setValueAtTime(frequency, when);
+        gainNode.gain.setValueAtTime(0.0001, when);
+        gainNode.gain.exponentialRampToValueAtTime(volume, when + 0.03);
+        gainNode.gain.exponentialRampToValueAtTime(0.0001, when + duration);
+
+        oscillator.connect(gainNode);
+        gainNode.connect(targetGain);
+        oscillator.start(when);
+        oscillator.stop(when + duration + 0.05);
+      }
+
+      function playUiBlip(baseFrequency = 620) {
+        const context = audioEngine.context;
+        if (!state.soundOn || !context || context.state !== "running") return;
+
+        const now = context.currentTime;
+        playTone(baseFrequency, now, 0.12, { channel: "sound", type: "triangle", volume: 0.05 });
+        playTone(baseFrequency * 1.5, now + 0.04, 0.1, { channel: "sound", type: "sine", volume: 0.028 });
+      }
+
+      function updateAudioState() {
+        if (!audioEngine.context) return;
+        const now = audioEngine.context.currentTime;
+
+        audioEngine.musicGain.gain.cancelScheduledValues(now);
+        audioEngine.soundGain.gain.cancelScheduledValues(now);
+        audioEngine.musicGain.gain.setTargetAtTime(state.musicOn ? 0.16 : 0.0001, now, 0.25);
+        audioEngine.soundGain.gain.setTargetAtTime(state.soundOn ? 0.18 : 0.0001, now, 0.08);
+      }
+
+      function scheduleMusicStep(when) {
+        const chords = [
+          [261.63, 329.63, 392.0],
+          [293.66, 369.99, 440.0],
+          [220.0, 293.66, 349.23],
+          [246.94, 311.13, 392.0]
+        ];
+        const melody = [523.25, 587.33, 659.25, 698.46, 659.25, 587.33, 523.25, 493.88];
+        const chord = chords[audioEngine.step % chords.length];
+        const melodyNote = melody[audioEngine.step % melody.length];
+
+        chord.forEach((freq, index) => {
+          playTone(freq, when + index * 0.01, 0.7, {
+            channel: "music",
+            type: index === 0 ? "triangle" : "sine",
+            volume: index === 0 ? 0.032 : 0.018
+          });
+        });
+
+        playTone(melodyNote, when + 0.24, 0.28, {
+          channel: "music",
+          type: "sine",
+          volume: 0.03
+        });
+
+        playTone(chord[0] / 2, when, 0.54, {
+          channel: "music",
+          type: "triangle",
+          volume: 0.024
+        });
+
+        audioEngine.step += 1;
+      }
+
+      function startMusicLoop() {
+        const context = audioEngine.context;
+        if (!context || audioEngine.loopTimer) return;
+
+        audioEngine.nextNoteTime = context.currentTime + 0.08;
+        audioEngine.loopTimer = window.setInterval(() => {
+          if (!audioEngine.context || audioEngine.context.state !== "running" || !state.musicOn) return;
+          while (audioEngine.nextNoteTime < audioEngine.context.currentTime + 0.8) {
+            scheduleMusicStep(audioEngine.nextNoteTime);
+            audioEngine.nextNoteTime += 0.82;
+          }
+        }, 180);
+      }
+
+      function stopMusicLoop() {
+        if (audioEngine.loopTimer) {
+          window.clearInterval(audioEngine.loopTimer);
+          audioEngine.loopTimer = null;
+        }
+      }
+
+      function setToggleVisual(buttonId, statusId, on) {
+        const button = document.getElementById(buttonId);
+        const status = document.getElementById(statusId);
+        button.classList.toggle("off", !on);
+        status.textContent = on ? "ON" : "OFF";
+      }
+
+      function renderTitle() {
+        const title = document.getElementById("heroTitle");
+        title.setAttribute("aria-label", "CIRCLIX");
+        title.innerHTML = '<span class="title-main">CIRCLI</span><span class="title-accent">X</span>';
+      }
+
+      function renderNoteTopic(topic = state.currentNoteTopic) {
+        const note = noteTopics[topic] || noteTopics.jejari;
+        state.currentNoteTopic = topic;
+
+        if (noteStage) {
+          noteStage.dataset.noteTopic = topic;
+        }
+
+        if (noteTopicHeading) noteTopicHeading.textContent = note.title;
+        if (noteTopicTitle) noteTopicTitle.textContent = note.title;
+        if (noteTopicDefinition) noteTopicDefinition.textContent = note.definition;
+        if (noteTopicExample) noteTopicExample.textContent = note.example;
+        if (noteTopicTip) noteTopicTip.textContent = note.tip;
+        if (noteStageCaption) noteStageCaption.textContent = note.caption;
+
+        if (noteTopicPoints) {
+          noteTopicPoints.innerHTML = note.points.map((point) => `<li>${point}</li>`).join("");
+        }
+
+        noteTopicButtons.forEach((button) => {
+          button.classList.toggle("active", button.dataset.noteTopic === topic);
+        });
+
+        formulaPills.forEach((pill) => {
+          pill.classList.toggle("active", note.formulas.includes(pill.dataset.formulaKey));
+        });
+      }
+
+      function getCrosswordEntry(entryId) {
+        return crosswordEntries.find((entry) => entry.id === entryId);
+      }
+
+      function getCrosswordCellValue(cellKey) {
+        return (state.crosswordValues[cellKey] || "").toUpperCase();
+      }
+
+      function setCrosswordCellValue(cellKey, value) {
+        const sanitised = value.toUpperCase().replace(/[^A-Z]/g, "").slice(-1);
+
+        if (sanitised) {
+          state.crosswordValues[cellKey] = sanitised;
+        } else {
+          delete state.crosswordValues[cellKey];
+        }
+      }
+
+      function getPreferredCrosswordEntryId(cellData) {
+        if (!cellData) return state.activeCrosswordEntryId;
+        if (cellData.entryIds.includes(state.activeCrosswordEntryId)) {
+          return state.activeCrosswordEntryId;
+        }
+        return cellData.entryIds[0];
+      }
+
+      function focusCrosswordCell(cellKey) {
+        const input = crosswordBoard?.querySelector(`[data-cell-key="${cellKey}"]`);
+        if (input) {
+          input.focus();
+          input.select();
+        }
+      }
+
+      function focusCrosswordEntry(entryId) {
+        const entry = getCrosswordEntry(entryId);
+        if (!entry) return;
+
+        const firstEmptyKey = entry.cells.find((cellKey) => !getCrosswordCellValue(cellKey));
+        focusCrosswordCell(firstEmptyKey || entry.cells[0]);
+      }
+
+      function setActiveCrosswordEntry(entryId, options = {}) {
+        if (!getCrosswordEntry(entryId)) return;
+        state.activeCrosswordEntryId = entryId;
+        updateCrosswordUi();
+
+        if (options.focus) {
+          focusCrosswordEntry(entryId);
+        }
+      }
+
+      function renderCrosswordClueList(container, direction) {
+        if (!container) return;
+
+        container.innerHTML = "";
+        crosswordEntries
+          .filter((entry) => entry.direction === direction)
+          .sort((left, right) => left.num - right.num)
+          .forEach((entry) => {
+            const clueButton = document.createElement("button");
+            clueButton.type = "button";
+            clueButton.className = "crossword-clue-item";
+            clueButton.dataset.entryId = entry.id;
+            clueButton.innerHTML = `
+              <strong>${entry.num}.</strong><p>${entry.clue}</p>
+            `;
+            clueButton.addEventListener("click", () => {
+              unlockAudio();
+              playUiBlip(630);
+              setActiveCrosswordEntry(entry.id, { focus: true });
+            });
+            container.appendChild(clueButton);
+          });
+      }
+
+      function renderCrosswordBoard() {
+        if (!crosswordBoard) return;
+
+        crosswordBoard.innerHTML = "";
+        crosswordBoard.style.gridTemplateColumns = `repeat(${crosswordMeta.cols}, var(--cell-size))`;
+
+        for (let row = 0; row < crosswordMeta.rows; row += 1) {
+          for (let col = 0; col < crosswordMeta.cols; col += 1) {
+            const cellKey = `${row},${col}`;
+            const cellData = crosswordMeta.cells.get(cellKey);
+            const cellElement = document.createElement("div");
+            cellElement.className = "crossword-cell";
+            cellElement.dataset.cellKey = cellKey;
+
+            if (!cellData) {
+              cellElement.classList.add("block");
+              crosswordBoard.appendChild(cellElement);
+              continue;
+            }
+
+            if (cellData.number !== null) {
+              const number = document.createElement("span");
+              number.className = "crossword-number";
+              number.textContent = cellData.number;
+              cellElement.appendChild(number);
+            }
+
+            const input = document.createElement("input");
+            input.className = "crossword-input";
+            input.type = "text";
+            input.maxLength = 1;
+            input.autocomplete = "off";
+            input.inputMode = "text";
+            input.dataset.cellKey = cellKey;
+            input.setAttribute("aria-label", `Huruf silang kata pada baris ${row + 1}, lajur ${col + 1}`);
+
+            input.addEventListener("focus", () => {
+              const preferredEntryId = getPreferredCrosswordEntryId(cellData);
+              setActiveCrosswordEntry(preferredEntryId);
+            });
+
+            input.addEventListener("click", () => {
+              const preferredEntryId = getPreferredCrosswordEntryId(cellData);
+              setActiveCrosswordEntry(preferredEntryId);
+            });
+
+            input.addEventListener("input", (event) => {
+              if (state.crosswordRevealed) return;
+
+              const value = event.target.value.toUpperCase().replace(/[^A-Z]/g, "").slice(-1);
+              event.target.value = value;
+              setCrosswordCellValue(cellKey, value);
+              updateCrosswordUi();
+
+              if (value) {
+                const activeEntry = getCrosswordEntry(getPreferredCrosswordEntryId(cellData));
+                if (activeEntry) {
+                  const currentIndex = activeEntry.cells.indexOf(cellKey);
+                  const nextKey = activeEntry.cells[currentIndex + 1];
+                  if (nextKey) {
+                    focusCrosswordCell(nextKey);
+                  }
+                }
+              }
+            });
+
+            input.addEventListener("keydown", (event) => {
+              const activeEntry = getCrosswordEntry(getPreferredCrosswordEntryId(cellData));
+              if (!activeEntry) return;
+
+              const currentIndex = activeEntry.cells.indexOf(cellKey);
+
+              if (event.key === "Backspace" && !event.target.value) {
+                const previousKey = activeEntry.cells[currentIndex - 1];
+                if (previousKey) {
+                  focusCrosswordCell(previousKey);
+                }
+              }
+
+              if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+                event.preventDefault();
+                const nextKey = activeEntry.cells[currentIndex + 1];
+                if (nextKey) {
+                  focusCrosswordCell(nextKey);
+                }
+              }
+
+              if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+                event.preventDefault();
+                const previousKey = activeEntry.cells[currentIndex - 1];
+                if (previousKey) {
+                  focusCrosswordCell(previousKey);
+                }
+              }
+            });
+
+            cellElement.appendChild(input);
+            crosswordBoard.appendChild(cellElement);
+          }
+        }
+      }
+
+      function updateCrosswordUi() {
+        if (!crosswordBoard || !crosswordFeedback || !crosswordNextButton || !crosswordRevealButton) {
+          return;
+        }
+
+        let correctCount = 0;
+        let filledCount = 0;
+
+        crosswordMeta.cells.forEach((cellData) => {
+          const input = crosswordBoard.querySelector(`[data-cell-key="${cellData.key}"]`);
+          const cellElement = input?.closest(".crossword-cell");
+          if (!input || !cellElement) return;
+
+          const currentValue = state.crosswordRevealed ? cellData.solution : getCrosswordCellValue(cellData.key);
+          const isCorrect = currentValue === cellData.solution;
+          const isFilled = currentValue.length > 0;
+          const isActive = cellData.entryIds.includes(state.activeCrosswordEntryId);
+
+          input.value = currentValue;
+          input.readOnly = state.crosswordRevealed;
+
+          cellElement.classList.toggle("active", isActive);
+          cellElement.classList.toggle("correct", !state.crosswordRevealed && isCorrect && isFilled);
+          cellElement.classList.toggle("wrong", !state.crosswordRevealed && isFilled && !isCorrect);
+          cellElement.classList.toggle("revealed", state.crosswordRevealed);
+
+          if (isFilled) {
+            filledCount += 1;
+          }
+
+          if (isCorrect) {
+            correctCount += 1;
+          }
+        });
+
+        state.crosswordSolved = correctCount === crosswordMeta.totalActiveCells;
+
+        crosswordAcrossList?.querySelectorAll(".crossword-clue-item").forEach((button) => {
+          button.classList.toggle("active", button.dataset.entryId === state.activeCrosswordEntryId);
+        });
+
+        crosswordDownList?.querySelectorAll(".crossword-clue-item").forEach((button) => {
+          button.classList.toggle("active", button.dataset.entryId === state.activeCrosswordEntryId);
+        });
+
+        const hasUnfinishedEntry = crosswordEntries.some((entry) =>
+          entry.cells.some((cellKey) => getCrosswordCellValue(cellKey) !== crosswordMeta.cells.get(cellKey)?.solution)
+        );
+
+        crosswordNextButton.disabled = !(state.crosswordSolved || state.crosswordRevealed);
+        if (crosswordHintButton) {
+          crosswordHintButton.disabled = state.crosswordRevealed || !hasUnfinishedEntry;
+        }
+        crosswordRevealButton.disabled = state.crosswordRevealed;
+        crosswordRevealButton.textContent = state.crosswordRevealed ? "Jawapan Dipaparkan" : "Jawapan";
+
+        crosswordFeedback.classList.remove("success", "revealed");
+
+        if (state.crosswordRevealed) {
+          crosswordFeedback.textContent =
+            "Jawapan telah dipaparkan. Semak semula istilah bulatan dan tekan Seterusnya untuk ke aktiviti berikut.";
+          crosswordFeedback.classList.add("revealed");
+        } else if (state.crosswordSolved) {
+          crosswordFeedback.textContent =
+            "Syabas! Semua jawapan betul. Anda boleh tekan Seterusnya untuk membuka aktiviti Kad Misteri.";
+          crosswordFeedback.classList.add("success");
+        } else if (filledCount === 0) {
+          crosswordFeedback.textContent = "Isi semua petak silang kata berdasarkan petunjuk yang diberikan.";
+        } else {
+          crosswordFeedback.textContent = `Setakat ini ${correctCount} daripada ${crosswordMeta.totalActiveCells} huruf adalah betul. Teruskan menyusun jawapan.`;
+        }
+      }
+
+      function revealCrosswordAnswers() {
+        crosswordMeta.cells.forEach((cellData) => {
+          state.crosswordValues[cellData.key] = cellData.solution;
+        });
+
+        state.crosswordRevealed = true;
+        state.crosswordSolved = true;
+        updateCrosswordUi();
+      }
+
+      function revealCrosswordHint() {
+        if (state.crosswordRevealed) {
+          return;
+        }
+
+        const activeEntry =
+          crosswordEntries.find((entry) => entry.id === state.activeCrosswordEntryId && !entry.cells.every((cellKey) => getCrosswordCellValue(cellKey) === crosswordMeta.cells.get(cellKey)?.solution)) ||
+          crosswordEntries.find((entry) => !entry.cells.every((cellKey) => getCrosswordCellValue(cellKey) === crosswordMeta.cells.get(cellKey)?.solution));
+
+        if (!activeEntry) {
+          updateCrosswordUi();
+          return;
+        }
+
+        const targetKey = activeEntry.cells.find((cellKey) => getCrosswordCellValue(cellKey) !== crosswordMeta.cells.get(cellKey)?.solution);
+        if (!targetKey) {
+          updateCrosswordUi();
+          return;
+        }
+
+        state.activeCrosswordEntryId = activeEntry.id;
+        state.crosswordValues[targetKey] = crosswordMeta.cells.get(targetKey).solution;
+        updateCrosswordUi();
+        crosswordFeedback.textContent = `Petunjuk dibuka untuk soalan ${activeEntry.num}. Satu huruf telah diisi sebagai bantuan.`;
+        focusCrosswordCell(targetKey);
+      }
+
+      function resetCrossword() {
+        state.crosswordValues = {};
+        state.crosswordSolved = false;
+        state.crosswordRevealed = false;
+        state.activeCrosswordEntryId = crosswordEntries[0].id;
+        updateCrosswordUi();
+      }
+
+      function initialiseCrossword() {
+        if (!crosswordBoard || crosswordBoard.dataset.ready === "true") {
+          return;
+        }
+
+        renderCrosswordClueList(crosswordAcrossList, "across");
+        renderCrosswordClueList(crosswordDownList, "down");
+        renderCrosswordBoard();
+        crosswordBoard.dataset.ready = "true";
+        updateCrosswordUi();
+      }
+
+      function getMissionLabels() {
+        return state.language === "bm"
+          ? {
+              ready: "Sedia",
+              locked: "Terkunci",
+              completed: "Selesai",
+              open: "Buka Aktiviti",
+              review: "Semak Semula",
+              progress: "misi selesai",
+              start: "Mulakan Misi 1",
+              continue: "Teruskan Misi Seterusnya",
+              done: "Semua Misi Selesai",
+              mission: "Misi"
+            }
+          : {
+              ready: "Ready",
+              locked: "Locked",
+              completed: "Completed",
+              open: "Open Activity",
+              review: "Review Again",
+              progress: "missions completed",
+              start: "Start Mission 1",
+              continue: "Continue Next Mission",
+              done: "All Missions Completed",
+              mission: "Mission"
+            };
+      }
+
+      function isActivityUnlocked(screenName) {
+        const index = activityOrder.indexOf(screenName);
+        if (index === -1) {
+          return true;
+        }
+
+        return index === 0 || state.completedActivities.includes(activityOrder[index - 1]);
+      }
+
+      function renderMissionControl() {
+        if (!missionGrid || !missionProgressText || !missionProgressBar || !missionStatusList) {
+          return;
+        }
+
+        const labels = getMissionLabels();
+        const completedCount = state.completedActivities.length;
+        const percent = (completedCount / activityOrder.length) * 100;
+
+        missionProgressText.textContent = `${completedCount} / ${activityOrder.length} ${labels.progress}`;
+        missionProgressBar.style.width = `${percent}%`;
+
+        missionStatusList.innerHTML = activityOrder
+          .map((screenName, index) => {
+            const completed = state.completedActivities.includes(screenName);
+            const unlocked = isActivityUnlocked(screenName);
+            const status = completed ? labels.completed : unlocked ? labels.ready : labels.locked;
+            return `
+              <div class="status-pill">
+                <span>${labels.mission} ${index + 1}</span>
+                <span>${status}</span>
+              </div>
+            `;
+          })
+          .join("");
+
+        missionGrid.querySelectorAll(".mission-tile").forEach((tile) => {
+          const index = Number(tile.dataset.activityIndex);
+          const screenName = activityOrder[index];
+          const completed = state.completedActivities.includes(screenName);
+          const unlocked = isActivityUnlocked(screenName);
+          const button = tile.querySelector(".mission-launch");
+          const stateText = tile.querySelector(".mission-state-text");
+
+          tile.classList.toggle("completed", completed);
+          tile.classList.toggle("locked", !unlocked);
+          stateText.textContent = completed ? labels.completed : unlocked ? labels.ready : labels.locked;
+          button.disabled = !unlocked;
+          button.textContent = completed ? labels.review : unlocked ? labels.open : labels.locked;
+        });
+
+        if (missionPrimaryButton) {
+          if (completedCount >= activityOrder.length) {
+            missionPrimaryButton.textContent = labels.done;
+            missionPrimaryButton.dataset.openScreen = "mission-control";
+            missionPrimaryButton.disabled = true;
+          } else {
+            const nextMission = activityOrder.find(
+              (screenName) => !state.completedActivities.includes(screenName) && isActivityUnlocked(screenName)
+            );
+            missionPrimaryButton.disabled = false;
+            missionPrimaryButton.dataset.openScreen = nextMission || activityOrder[0];
+            missionPrimaryButton.textContent = completedCount === 0 ? labels.start : labels.continue;
+          }
+        }
+      }
+
+      function showScreen(screenName) {
+        const targetScreen = screenPanels.some((panel) => panel.dataset.screen === screenName) ? screenName : "start";
+        state.currentScreen = targetScreen;
+        closePanel();
+
+        screenPanels.forEach((panel) => {
+          panel.classList.toggle("active", panel.dataset.screen === targetScreen);
+        });
+
+        if (targetScreen === "mission-control") {
+          renderMissionControl();
+        }
+
+        if (targetScreen === "crossword") {
+          initialiseCrossword();
+          updateCrosswordUi();
+        }
+
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function completeActivity(screenName) {
+        if (!state.completedActivities.includes(screenName)) {
+          state.completedActivities.push(screenName);
+        }
+
+        renderMissionControl();
+
+        const nextScreen = activityOrder[activityOrder.indexOf(screenName) + 1];
+        showScreen(nextScreen || "mission-control");
+      }
+
+      function applyLanguage(lang) {
+        state.language = lang;
+        const locale = localeText[lang];
+
+        document.documentElement.lang = lang === "bm" ? "ms" : "en";
+        document.querySelectorAll(".lang-btn").forEach((button) => {
+          button.classList.toggle("active", button.dataset.lang === lang);
+        });
+
+        document.getElementById("heroKicker").textContent = locale.kicker;
+        document.getElementById("heroTopicLine").textContent = locale.topicLine;
+        document.getElementById("heroTopicLevel").textContent = locale.topicLevel;
+        document.getElementById("heroSubtitle").textContent = locale.subtitle;
+        document.getElementById("soundLabel").textContent = locale.soundLabel;
+        document.getElementById("musicLabel").textContent = locale.musicLabel;
+        document.getElementById("heroBubbleText").textContent = locale.bubbleText;
+        document.getElementById("nameLabel").textContent = locale.nameLabel;
+        document.getElementById("emailLabel").textContent = locale.emailLabel;
+        nameInput.placeholder = locale.namePlaceholder;
+        emailInput.placeholder = locale.emailPlaceholder;
+        document.getElementById("startButtonText").textContent = locale.startButton;
+        document.getElementById("menuGuideText").textContent = locale.menuGuide;
+        document.getElementById("menuLeaderboardText").textContent = locale.menuLeaderboard;
+        document.getElementById("menuAboutText").textContent = locale.menuAbout;
+        document.getElementById("menuExitText").textContent = locale.menuExit;
+        if (!formFeedback.textContent) {
+          formNote.textContent = locale.formNote;
+        }
+        renderMissionControl();
+      }
+
+      function showError(message) {
+        formFeedback.textContent = message;
+      }
+
+      function clearForm() {
+        const locale = localeText[state.language];
+        nameInput.value = "";
+        emailInput.value = "";
+        formFeedback.textContent = "";
+        formNote.textContent = locale.formNote;
+        state.completedActivities = [];
+        state.currentScreen = "start";
+        renderMissionControl();
+        resetCrossword();
+        showScreen("start");
+      }
+
+      function openPanel(panelName) {
+        const locale = localeText[state.language];
+        let kicker = "";
+        let title = "";
+        let html = "";
+
+        if (panelName === "guide") {
+          kicker = locale.menuGuide;
+          title = locale.guideTitle;
+          html =
+            "<p>" + locale.guideIntro + "</p>" +
+            "<ol>" +
+            locale.guideSteps.map((step) => "<li>" + step + "</li>").join("") +
+            "</ol>";
+        } else if (panelName === "leaderboard") {
+          kicker = locale.menuLeaderboard;
+          title = locale.leaderboardTitle;
+          const previewName = nameInput.value.trim() || (state.language === "bm" ? "Tetamu" : "Player");
+          const rows = [
+            { name: "Nova", score: 150, stars: 5 },
+            { name: "Alya", score: 125, stars: 4 },
+            { name: previewName, score: 95, stars: 3, current: true },
+            { name: "Iman", score: 80, stars: 3 }
+          ]
+            .sort((a, b) => b.score - a.score)
+            .map((entry, index) => `
+              <div class="leader-row${entry.current ? " current" : ""}">
+                <span class="leader-rank">${index + 1}</span>
+                <div class="leader-meta">
+                  <strong>${entry.name}</strong>
+                  <span>${entry.stars} ★</span>
+                </div>
+                <div class="leader-score">
+                  <strong>${entry.score}</strong>
+                  <span>${state.language === "bm" ? "Skor" : "Score"}</span>
+                </div>
+              </div>
+            `)
+            .join("");
+          html = `<div class="leaderboard">${rows}</div><p>${locale.leaderboardNote}</p>`;
+        } else if (panelName === "about") {
+          kicker = locale.menuAbout;
+          title = locale.aboutTitle;
+          html = locale.aboutText.map((text) => "<p>" + text + "</p>").join("");
+        } else {
+          kicker = locale.menuExit;
+          title = locale.exitTitle;
+          html = `
+            <p>${locale.exitText}</p>
+            <button class="ghost-action" id="resetFormButton" type="button">${locale.exitAction}</button>
+          `;
+        }
+
+        modalKicker.textContent = kicker;
+        modalTitle.textContent = title;
+        modalContent.innerHTML = html;
+        quickModal.hidden = false;
+      }
+
+      function closePanel() {
+        quickModal.hidden = true;
+      }
+
+      document.getElementById("startForm").addEventListener("submit", (event) => {
+        event.preventDefault();
+        unlockAudio();
+        playUiBlip(720);
+        const locale = localeText[state.language];
+        const name = nameInput.value.trim();
+        const email = emailInput.value.trim();
+
+        if (!name) {
+          showError(locale.missingName);
+          return;
+        }
+
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          showError(locale.invalidEmail);
+          return;
+        }
+
+        formFeedback.textContent = "";
+        formNote.textContent = locale.welcome.replace("{name}", name);
+        renderMissionControl();
+        showScreen("mission-control");
+      });
+
+      document.querySelectorAll(".lang-btn").forEach((button) => {
+        button.addEventListener("click", () => {
+          unlockAudio();
+          playUiBlip(690);
+          applyLanguage(button.dataset.lang);
+        });
+      });
+
+      document.querySelectorAll("[data-panel]").forEach((button) => {
+        button.addEventListener("click", () => {
+          unlockAudio();
+          playUiBlip(640);
+          openPanel(button.dataset.panel);
+        });
+      });
+
+      noteTopicButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          unlockAudio();
+          playUiBlip(650);
+          renderNoteTopic(button.dataset.noteTopic);
+        });
+      });
+
+      crosswordHintButton?.addEventListener("click", () => {
+        unlockAudio();
+        playUiBlip(680);
+        revealCrosswordHint();
+      });
+
+      crosswordRevealButton?.addEventListener("click", () => {
+        unlockAudio();
+        playUiBlip(720);
+        revealCrosswordAnswers();
+      });
+
+      document.querySelectorAll("[data-open-screen]").forEach((button) => {
+        button.addEventListener("click", () => {
+          unlockAudio();
+          const targetScreen = button.dataset.openScreen;
+
+          if (activityOrder.includes(targetScreen) && !isActivityUnlocked(targetScreen)) {
+            playUiBlip(430);
+            return;
+          }
+
+          playUiBlip(610);
+          showScreen(targetScreen);
+        });
+      });
+
+      document.querySelectorAll("[data-complete-screen]").forEach((button) => {
+        button.addEventListener("click", () => {
+          unlockAudio();
+          playUiBlip(760);
+          completeActivity(button.dataset.completeScreen);
+        });
+      });
+
+      document.getElementById("toggleSoundButton").addEventListener("click", async () => {
+        await unlockAudio();
+        state.soundOn = !state.soundOn;
+        setToggleVisual("toggleSoundButton", "soundStatus", state.soundOn);
+        updateAudioState();
+        playUiBlip(560);
+      });
+
+      document.getElementById("toggleMusicButton").addEventListener("click", async () => {
+        await unlockAudio();
+        state.musicOn = !state.musicOn;
+        setToggleVisual("toggleMusicButton", "musicStatus", state.musicOn);
+        updateAudioState();
+        if (state.musicOn) {
+          startMusicLoop();
+          playUiBlip(520);
+        } else {
+          stopMusicLoop();
+        }
+      });
+
+      document.getElementById("closeQuickModal").addEventListener("click", closePanel);
+      document.getElementById("quickModalBackdrop").addEventListener("click", closePanel);
+
+      modalContent.addEventListener("click", (event) => {
+        if (event.target.id === "resetFormButton") {
+          playUiBlip(480);
+          clearForm();
+          closePanel();
+        }
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && !quickModal.hidden) {
+          closePanel();
+        }
+      });
+
+      renderTitle();
+      renderNoteTopic("jejari");
+      initialiseCrossword();
+      resetCrossword();
+      applyLanguage("bm");
+      renderMissionControl();
+      showScreen("start");
+      setToggleVisual("toggleSoundButton", "soundStatus", true);
+      setToggleVisual("toggleMusicButton", "musicStatus", true);
+
+      ["pointerdown", "keydown"].forEach((eventName) => {
+        window.addEventListener(
+          eventName,
+          () => {
+            unlockAudio();
+          },
+          { once: true }
+        );
+      });
+    </script>
+  </body>
+</html>
